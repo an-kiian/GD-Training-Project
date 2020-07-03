@@ -1,4 +1,4 @@
-package Repositories;
+package Repositories.interfaces;
 
 public interface ReviewRepository {
 }

@@ -1,4 +1,6 @@
 package Repositories;
 
-public class ReviewRepository {
+import Repositories.interfaces.ReviewRepository;
+
+public class ReviewRepositoryImpl implements ReviewRepository {
 }

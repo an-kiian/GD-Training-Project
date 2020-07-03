@@ -1,7 +1,8 @@
 package Repositories;
+import Repositories.interfaces.SaleRepository;
 import model.Sale;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public class SaleRepository extends JpaRepository<Sale, Long> {
+public class SaleRepositoryImpl implements SaleRepository {
 
 }

@@ -1,4 +1,6 @@
 package Repositories;
 
-public class CategoryRepository {
+import Repositories.interfaces.CategoryRepository;
+
+public class CategoryRepositoryImpl implements CategoryRepository {
 }

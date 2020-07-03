@@ -1,5 +1,6 @@
 package Repositories;
 
+import Repositories.interfaces.ProductRepository;
 import model.Product;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,11 +10,18 @@ import java.util.List;
 
 @Repository
 
-public class ProductRepository extends JpaRepository<Product, Long> {
+public class ProductRepositoryImpl implements ProductRepository {
 
-
-    @Override
-    public List<Product> findAll(Sort sort) {
+    //TODO
+    public Product getProfileById(long personId) {
+        return null;
+    }
+    //TODO
+    public List<Product> getProfileById(String nameProduct) {
+        return null;
+    }
+    //TODO
+    public Product updatePrice(long idProduct, double price) {
         return null;
     }
 }
