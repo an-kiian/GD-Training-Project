@@ -35,7 +35,19 @@
             <artifactId>spring-web</artifactId>
             <version>4.3.13.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- HikariCP connection pool -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.7.6</version>
+        </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>

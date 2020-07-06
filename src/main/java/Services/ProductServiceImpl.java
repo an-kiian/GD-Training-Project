@@ -10,12 +10,12 @@ public class ProductServiceImpl implements ProductService {
     ProductRepositoryImpl productRepository;
 @Override
     public Product getProductById(long productId) {
-        return productRepository.getProfileById(productId);
+        return productRepository.findById(productId);
 
     }
     @Override
     public List<Product> getProductByName(String nameProduct) {
-        return productRepository.getProfileById(nameProduct);
+        return productRepository.findByName(nameProduct);
 
     }
     public Product updatePrice(long idProduct, double price) {
