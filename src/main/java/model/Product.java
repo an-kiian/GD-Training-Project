@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Product {
@@ -10,6 +11,15 @@ public class Product {
     private double price;
     private String nameProduct;
     private String description;
+    @ManyToMany
+    @JoinTable(name="Product_Category",
+            joinColumns = @JoinColumn(name="idProduct", referencedColumnName="id_product"),
+            inverseJoinColumns = @JoinColumn(name="idCategory", referencedColumnName="id_category")
+    )
+    private Set<Category> categories;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+    private Set<Review> reviews;
 public Product(){}
 public Product(long price,String name,String description){
     this.price=price;

@@ -1,5 +1,8 @@
 package controller;
 
+import org.springframework.http.HttpStatus;
+import request.ProductRequest;
+import request.UpdateProductRequest;
 import service.ProductServiceImpl;
 import model.Product;
 import org.springframework.web.bind.annotation.*;
@@ -14,18 +17,22 @@ public class ProductController {
     }
 
     @GetMapping("/store/product/getByName")
-    public List<Product> getProductByField(@RequestBody String nameProduct) {
+    public Product getProductByField(@RequestBody String nameProduct) {
         return productService.getProductByName(nameProduct);
     }
 
     @PutMapping("/store/product/updatePrice")
-    public Product updatePrice(@RequestBody long idProduct, double price) {
-        return productService.updatePrice(idProduct, price);
+    public Product updatePrice(@RequestBody UpdateProductRequest updateRequest) {
+        return productService.updatePrice(updateRequest);
     }
 
-    //TODO: how to write category
     @PostMapping("/store/product/addProduct")
-    public void addProduct(@RequestBody Product product) {
-
+    @ResponseStatus(HttpStatus.CREATED)
+    public Product addProduct(@RequestBody ProductRequest productRequest) {
+        return productService.addProduct(productRequest);
+    }
+    @PutMapping("/store/product/updatePrice2")
+    public Product updatePrice2(@PathVariable("idProduct") long id, @RequestBody double price) {
+        return productService.updatePrice2(id, price);
     }
 }
