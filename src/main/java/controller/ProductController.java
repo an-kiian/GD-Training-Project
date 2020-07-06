@@ -1,7 +1,6 @@
-package Controllers;
+package controller;
 
-import Services.ProductService;
-import Services.ProductServiceImpl;
+import service.ProductServiceImpl;
 import model.Product;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,5 +26,6 @@ public class ProductController {
     //TODO: how to write category
     @PostMapping("/store/product/addProduct")
     public void addProduct(@RequestBody Product product) {
+
     }
 }

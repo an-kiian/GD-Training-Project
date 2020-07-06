@@ -1,4 +1,4 @@
-package Repositories.interfaces;
+package repository;
 
 public interface CategoryRepository {
 }

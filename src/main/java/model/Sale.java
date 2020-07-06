@@ -10,7 +10,7 @@ import java.util.Date;
 @Entity
 public class Sale {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "increment")
     private Long idSale;
     private LocalDate date_on;
     private LocalDate date_off;

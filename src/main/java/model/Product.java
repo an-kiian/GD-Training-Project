@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "increment")
     private Long idProduct;
     private double price;
     private String nameProduct;

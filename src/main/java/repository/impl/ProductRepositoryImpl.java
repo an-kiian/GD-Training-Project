@@ -1,9 +1,7 @@
-package Repositories;
+package repository.impl;
 
-import Repositories.interfaces.ProductRepository;
+import repository.ProductRepository;
 import model.Product;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,15 +11,19 @@ import java.util.List;
 public class ProductRepositoryImpl implements ProductRepository {
 
     //TODO
-    public Product getProfileById(long personId) {
-        return null;
+    public Product getProfileById(long idProduct) {
+    return null;
     }
     //TODO
-    public List<Product> getProfileById(String nameProduct) {
+    public List<Product> getProductByName(String nameProduct) {
         return null;
     }
     //TODO
     public Product updatePrice(long idProduct, double price) {
+        return null;
+    }
+    //TODO
+    public Product addProduct(Product product) {
         return null;
     }
 }

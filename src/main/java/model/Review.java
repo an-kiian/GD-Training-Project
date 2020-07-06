@@ -8,7 +8,7 @@ import javax.persistence.Id;
 @Entity
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "increment")
     private Long idReview;
     private String text;
     private double rating;

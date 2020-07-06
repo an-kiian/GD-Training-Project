@@ -1,7 +1,6 @@
-package Services;
+package service;
 
-import Repositories.ProductRepositoryImpl;
-import Repositories.interfaces.ProductRepository;
+import repository.impl.ProductRepositoryImpl;
 import model.Product;
 
 import java.util.List;
@@ -15,11 +14,13 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     public List<Product> getProductByName(String nameProduct) {
-        return productRepository.getProfileById(nameProduct);
+        return productRepository.getProductByName(nameProduct);
 
     }
     public Product updatePrice(long idProduct, double price) {
         return productRepository.updatePrice(idProduct,price);
-
+    }
+    public Product addProduct(Product product) {
+        return productRepository.addProduct(product);
     }
 }
