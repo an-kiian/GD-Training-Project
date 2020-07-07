@@ -21,6 +21,8 @@ public class Product {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
     private Set<Review> reviews;
+
+
 public Product(){}
 public Product(long id,long price,String name,String description,Set<Category>categories){
     this.idProduct=id;

@@ -16,6 +16,7 @@ public class ProductController {
     @GetMapping("store/product/getById")
 
     public Product getProductById(@RequestBody long idProduct) {
+
         return productService.getProductById(idProduct);
     }
 
