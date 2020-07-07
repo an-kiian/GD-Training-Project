@@ -10,20 +10,5 @@ import java.util.List;
 
 public class ProductRepositoryImpl implements ProductRepository {
 
-    //TODO
-    public Product getProfileById(long idProduct) {
-    return null;
-    }
-    //TODO
-    public List<Product> getProductByName(String nameProduct) {
-        return null;
-    }
-    //TODO
-    public Product updatePrice(long idProduct, double price) {
-        return null;
-    }
-    //TODO
-    public Product addProduct(Product product) {
-        return null;
-    }
+
 }

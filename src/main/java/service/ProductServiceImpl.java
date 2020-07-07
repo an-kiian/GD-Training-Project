@@ -1,16 +1,21 @@
 package service;
 
 import exception.NotFoundException;
+import model.Category;
+import repository.impl.CategoryRepositoryImpl;
 import repository.impl.ProductRepositoryImpl;
 import model.Product;
 import request.ProductRequest;
 import request.UpdateProductRequest;
 
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class ProductServiceImpl implements ProductService {
     ProductRepositoryImpl productRepository;
+    CategoryRepositoryImpl categoryRepository;
 @Override
     public Product getProductById(long idProduct) {
     Product product= productRepository.findById(idProduct);
@@ -58,7 +63,24 @@ public class ProductServiceImpl implements ProductService {
         product.setNameProduct(productRequest.getNameProduct());
         product.setPrice(productRequest.getPrice());
         product.setDescription(productRequest.getDescription());
+        long [] categories=productRequest.getCategories();
+        product.setCategories(categoriesFromArray(categories));
         return productRepository.save(product);
+    }
+    public Set<Category>categoriesFromArray(long []categories){
+        Set<Category> setCategories=new HashSet<>();
+        for(long category:categories)
+        {Category categ=categoryRepository.findById(category);
+        if(categ!=null)
+            setCategories.add(categ);
+        else
+        {
+            throw new NotFoundException(category);
+            return null;
+        }
+
+        }
+        return setCategories;
     }
     public Product updatePrice2(long id, double price) {
         Product productFromDB=null;

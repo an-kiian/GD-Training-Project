@@ -12,6 +12,7 @@ import java.util.List;
 public class ProductController {
     ProductServiceImpl productService;
     @GetMapping("/store/product/getById")
+
     public Product getProductById(@RequestBody long idProduct) {
         return productService.getProductById(idProduct);
     }
