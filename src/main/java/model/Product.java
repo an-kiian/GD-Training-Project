@@ -22,10 +22,12 @@ public class Product {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
     private Set<Review> reviews;
 public Product(){}
-public Product(long price,String name,String description){
+public Product(long id,long price,String name,String description,Set<Category>categories){
+    this.idProduct=id;
     this.price=price;
     this.nameProduct=name;
     this.description=description;
+    this.categories=categories;
 
 }
     public Long getIdProduct() {
@@ -75,4 +77,6 @@ public Product(long price,String name,String description){
         this.categories = categories;
     }
 
+    public void setId(String s) {
+    }
 }

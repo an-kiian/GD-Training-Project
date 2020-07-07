@@ -2,42 +2,47 @@ package service;
 
 import exception.NotFoundException;
 import model.Category;
-import repository.impl.CategoryRepositoryImpl;
-import repository.impl.ProductRepositoryImpl;
+import repository.CategoryRepository;
+import repository.ProductRepository;
 import model.Product;
 import request.ProductRequest;
 import request.UpdateProductRequest;
-
-import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
 public class ProductServiceImpl implements ProductService {
-    ProductRepositoryImpl productRepository;
-    CategoryRepositoryImpl categoryRepository;
+    ProductRepository productRepository;;
+    CategoryRepository categoryRepository;
 @Override
     public Product getProductById(long idProduct) {
-    Product product= productRepository.findById(idProduct);
-    if (product== null) {
+    Product product;
+    try{
+        product= productRepository.findById(idProduct);
+    if (product== null)
         throw new NotFoundException(idProduct);
-        return null;
+    }
+    catch(NotFoundException e){
+    e.printStackTrace();
+    return null;
     }
         return product;
 
     }
     @Override
-    public Product getProductByName(String nameProduct) {
-     Product product =null;
+    public List<Product> getProductByName(String nameProduct) {
+    List<Product> products =null;
       try{
-          product= productRepository.findByName(nameProduct);
-        if (product== null) {
-            //throw new NotFoundException(productId);
+          products=productRepository.findByName(nameProduct);
+        if (products== null) {
+            throw new NotFoundException(nameProduct);
         }}
-      catch(Exception e){
+      catch(NotFoundException e){
+          e.printStackTrace();
           return null;
       }
-        return product;
+        return products;
     }
     public Product updatePrice(UpdateProductRequest updateRequest) {
         Product productFromDB=null;
@@ -49,15 +54,14 @@ public class ProductServiceImpl implements ProductService {
         }
            productFromDB.setPrice(updateRequest.getPrice());
            productRepository.save(productFromDB);}
-       catch(SQLException e){
-           return null;
-       }
+
        catch (NotFoundException e){
             e.printStackTrace();
             return null;
        }
        return productFromDB;
     }
+
     public Product addProduct(ProductRequest productRequest) {
         Product product= new Product();
         product.setNameProduct(productRequest.getNameProduct());
@@ -70,35 +74,38 @@ public class ProductServiceImpl implements ProductService {
     public Set<Category>categoriesFromArray(long []categories){
         Set<Category> setCategories=new HashSet<>();
         for(long category:categories)
-        {Category categ=categoryRepository.findById(category);
+        {
+         try{
+             Category categ=categoryRepository.findById(category);
         if(categ!=null)
             setCategories.add(categ);
         else
-        {
             throw new NotFoundException(category);
-            return null;
-        }
 
+        }catch(NotFoundException e){
+             e.printStackTrace();
+             return null;
+         }
         }
         return setCategories;
     }
     public Product updatePrice2(long id, double price) {
         Product productFromDB=null;
         try{
-            productFromDB = productRepository.findById(price);
+            productFromDB = productRepository.findById(id);
             if(productFromDB==null)
             {
                 throw new NotFoundException(id);
             }
             productFromDB.setPrice(price);
             productRepository.save(productFromDB);}
-        catch(SQLException e){
-            return null;
-        }
         catch (NotFoundException e){
             e.printStackTrace();
             return null;
         }
         return productFromDB;
+    }
+    public List<Product> getAllProduct(){
+    return productRepository.findAll();
     }
 }
