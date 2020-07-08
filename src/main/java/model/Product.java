@@ -8,9 +8,13 @@ import java.util.Set;
 public class Product {
     @Id
     @GeneratedValue(generator = "increment")
+    @Column(name="id_product",nullable = false)
     private Long idProduct;
+    @Column(nullable = false)
     private double price;
-    private String nameProduct;
+    @Column(nullable = false)
+    private String name;
+    @Column(nullable = false)
     private String description;
     @ManyToMany
     @JoinTable(name="Product_Category",
@@ -27,7 +31,7 @@ public Product(){}
 public Product(long id,long price,String name,String description,Set<Category>categories){
     this.idProduct=id;
     this.price=price;
-    this.nameProduct=name;
+    this.name=name;
     this.description=description;
     this.categories=categories;
 
@@ -53,12 +57,12 @@ public Product(long id,long price,String name,String description,Set<Category>ca
         this.description = description;
     }
 
-    public String getNameProduct() {
-        return nameProduct;
+    public String getName() {
+        return name;
     }
 
     public void setNameProduct(String nameProduct) {
-        this.nameProduct = nameProduct;
+        this.name = nameProduct;
     }
 
     @Override
@@ -66,7 +70,7 @@ public Product(long id,long price,String name,String description,Set<Category>ca
         return "Product{" +
                 "idProduct=" + idProduct +
                 ", price=" + price +
-                ", name='" + nameProduct + '\'' +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }

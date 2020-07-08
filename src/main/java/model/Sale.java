@@ -1,9 +1,6 @@
 package model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -11,9 +8,13 @@ import java.util.Date;
 public class Sale {
     @Id
     @GeneratedValue(generator = "increment")
+    @Column(name="id_sale",nullable = false)
     private Long idSale;
+    @Column(nullable = false)
     private LocalDate date_on;
+    @Column(nullable = false)
     private LocalDate date_off;
+    @Column(nullable = false)
     private double percent;
 public Sale(){}
 public Sale(String date_on, String date_off,double percent){

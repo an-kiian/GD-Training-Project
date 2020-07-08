@@ -11,6 +11,7 @@ public class Category {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name= "increment", strategy= "increment")
+    @Column(name="id_category",nullable = false)
     private Long idCategory;
     private String name;
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "categories")

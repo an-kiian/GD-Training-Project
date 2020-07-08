@@ -6,8 +6,11 @@ import javax.persistence.*;
 public class Review {
     @Id
     @GeneratedValue(generator = "increment")
+    @Column(name="id_review",nullable = false)
     private Long idReview;
+    @Column(nullable = false)
     private String text;
+    @Column(nullable = false)
     private double rating;
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "id_product", nullable = false)

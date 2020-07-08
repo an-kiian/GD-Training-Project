@@ -13,15 +13,14 @@ import java.util.List;
 public class ProductController {
 
     ProductServiceImpl productService;
-    @GetMapping("store/product/getById")
+    @GetMapping("store/product/getById/{idProduct}")
 
-    public Product getProductById(@RequestBody long idProduct) {
-
+    public Product getProductById(@PathVariable Long idProduct) {
         return productService.getProductById(idProduct);
     }
 
-    @GetMapping("/store/product/getByName")
-    public List<Product> getProductByField(@RequestBody String nameProduct) {
+    @GetMapping("/store/product/getByName/{nameProduct}")
+    public List<Product> getProductByName(@PathVariable String nameProduct) {
         return productService.getProductByName(nameProduct);
     }
 
