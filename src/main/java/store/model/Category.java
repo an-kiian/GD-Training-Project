@@ -1,21 +1,18 @@
-package model;
-
-import org.hibernate.annotations.GenericGenerator;
+package store.model;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-//@Table(name = "Category", schema = "", catalog = "")
+@Table(name = "category")
 public class Category {
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name= "increment", strategy= "increment")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id_category",nullable = false)
     private Long idCategory;
     private String name;
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "categories")
-    private Set<Product> products;
+   // @ManyToMany(fetch = FetchType.EAGER, mappedBy = "categories")
+    //private Set<Product> products;
     public Category(){}
     public Category(String name){
     this.name=name;
@@ -42,11 +39,11 @@ public class Category {
                 '}';
     }
 
-    public Set<Product> getProducts() {
-        return products;
-    }
+    //public Set<Product> getProducts() {
+     //   return products;
+   // }
 
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
+    //public void setProducts(Set<Product> products) {
+     //   this.products = products;
+   // }
 }

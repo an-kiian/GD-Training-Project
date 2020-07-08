@@ -1,16 +1,14 @@
-package controller;
+package store;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import request.ProductRequest;
-import request.UpdateProductRequest;
-import service.ProductService;
-import service.ProductServiceImpl;
-import model.Product;
+import org.springframework.http.ResponseEntity;
+import store.request.ProductRequest;
+import store.request.UpdateProductRequest;
+import store.service.ProductService;
+import store.model.Product;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 @RestController
 public class ProductController {
 
@@ -20,13 +18,12 @@ public class ProductController {
         this.productService=productService;
     }
     @GetMapping("store/product/getById/{idProduct}")
-
     public Product getProductById(@PathVariable Long idProduct) {
         return productService.getProductById(idProduct);
     }
 
     @GetMapping("/store/product/getByName/{nameProduct}")
-    public List<Product> getProductByName(@PathVariable String nameProduct) {
+    public Iterable<Product> getProductByName(@PathVariable String nameProduct) {
         return productService.getProductByName(nameProduct);
     }
 

@@ -1,4 +1,4 @@
-package request;
+package store.request;
 
 public class UpdateProductRequest {
     private long idProduct;

@@ -1,10 +1,4 @@
-package request;
-
-import model.Category;
-import model.Review;
-
-import javax.persistence.*;
-import java.util.Set;
+package store.request;
 
 public class ProductRequest {
     private String nameProduct;

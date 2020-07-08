@@ -1,8 +1,7 @@
-package controller;
+package store.controller;
 
 import java.io.IOException;
 
-import controller.ProductController;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +15,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import store.ProductController;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = ProductController.class)
