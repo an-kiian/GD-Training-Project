@@ -2,6 +2,8 @@ package service;
 
 import exception.NotFoundException;
 import model.Category;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import repository.CategoryRepository;
 import repository.ProductRepository;
 import model.Product;
@@ -11,10 +13,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
+@Service
 public class ProductServiceImpl implements ProductService {
-    ProductRepository productRepository;;
+    private final ProductRepository productRepository;;
     CategoryRepository categoryRepository;
+    ProductService productService;
+    @Autowired
+    ProductServiceImpl(ProductRepository productRepository){
+        this.productRepository=productRepository;
+    }
 @Override
     public Product getProductById(long idProduct) {
     Product product;
