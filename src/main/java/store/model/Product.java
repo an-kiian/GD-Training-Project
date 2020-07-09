@@ -4,17 +4,17 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="product")
+@Table(name= "product")
 public class Product {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id_product",nullable = false)
     private Long idProduct;
-    @Column(nullable = false)
-    private double price;
-    @Column(nullable = false)
+    @Column(name="name",nullable = false)
     private String name;
-    @Column(nullable = false)
+    @Column(name="price",nullable = false)
+    private double price;
+    @Column(name="description",nullable = false)
     private String description;
 //    @ManyToMany
 //    @JoinTable(name="Product_Category",
@@ -28,13 +28,18 @@ public class Product {
 
 
 public Product(){}
-public Product(long id,long price,String name,String description,Set<Category>categories){
+public Product(Long id, long price, String name, String description, Set<Category>categories){
     this.idProduct=id;
     this.price=price;
     this.name=name;
     this.description=description;
    // this.categories=categories;
 
+}
+public Product(long price, String name, String description){
+    this.price=price;
+    this.name=name;
+    this.description=description;
 }
     public Long getIdProduct() {
         return idProduct;

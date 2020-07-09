@@ -2,7 +2,6 @@ package store;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import store.request.ProductRequest;
 import store.request.UpdateProductRequest;
 import store.service.ProductService;
@@ -12,14 +11,20 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ProductController {
 
-    ProductService productService;
+   public  ProductService productService;
     @Autowired
     ProductController(ProductService productService){
         this.productService=productService;
     }
+
     @GetMapping("store/product/getById/{idProduct}")
     public Product getProductById(@PathVariable Long idProduct) {
         return productService.getProductById(idProduct);
+    }
+
+    @GetMapping("store/product/getAll")
+    public Iterable<Product> getAllProduct() {
+        return productService.getAllProduct();
     }
 
     @GetMapping("/store/product/getByName/{nameProduct}")

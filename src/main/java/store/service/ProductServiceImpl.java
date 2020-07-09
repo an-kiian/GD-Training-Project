@@ -3,19 +3,19 @@ package store.service;
 import store.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import store.repository.CategoryRepository;
 import store.repository.ProductRepository;
 import store.model.Product;
 import store.request.ProductRequest;
 import store.request.UpdateProductRequest;
 
+import java.util.List;
+
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    private final ProductRepository productRepository;
+    public ProductRepository productRepository;
     ;
-    CategoryRepository categoryRepository;
-    ProductService productService;
+ //   CategoryRepository categoryRepository;
 
     @Autowired
     ProductServiceImpl(ProductRepository productRepository) {
@@ -36,23 +36,35 @@ public class ProductServiceImpl implements ProductService {
         return product;
 
     }
+    @Override
+    public Iterable<Product> getAllProduct() {
+        return productRepository.findAll();
+    }
 
     @Override
-    public Iterable<Product> getProductByName(String nameProduct) {
-        System.out.println("NAME PRODUCT=" + nameProduct);
-        Iterable<Product> products = null;
+    public List<Product> getProductByName(String nameProduct) {
+       List<Product> products = null;
         try {
-            products = productRepository.findAll();
-            if (products == null) {
+            products = productRepository.findByName(nameProduct);
+            if (products.isEmpty())
                 throw new NotFoundException(nameProduct);
-            }
         } catch (NotFoundException e) {
-            e.printStackTrace();
             return null;
         }
         return products;
     }
-
+    @Override
+    public List<Product> getProductByDescription(String description) {
+        List<Product> products = null;
+        try {
+            products = productRepository.findByDescription(description);
+            if (products.isEmpty())
+                throw new NotFoundException(description);
+        } catch (NotFoundException e) {
+            return null;
+        }
+        return products;
+    }
     public Product updatePrice(UpdateProductRequest updateRequest) {
         Product productFromDB = null;
         try {
@@ -63,7 +75,6 @@ public class ProductServiceImpl implements ProductService {
             productFromDB.setPrice(updateRequest.getPrice());
             productRepository.save(productFromDB);
         } catch (NotFoundException e) {
-            e.printStackTrace();
             return null;
         }
         return productFromDB;
@@ -74,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
         product.setNameProduct(productRequest.getNameProduct());
         product.setPrice(productRequest.getPrice());
         product.setDescription(productRequest.getDescription());
-        long[] categories = productRequest.getCategories();
+       // long[] categories = productRequest.getCategories();
         // product.setCategories(categoriesFromArray(categories));
         return productRepository.save(product);
     }

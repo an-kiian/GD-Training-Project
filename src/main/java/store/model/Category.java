@@ -10,15 +10,15 @@ public class Category {
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id_category",nullable = false)
     private Long idCategory;
+    @Column(nullable = false)
     private String name;
    // @ManyToMany(fetch = FetchType.EAGER, mappedBy = "categories")
     //private Set<Product> products;
     public Category(){}
     public Category(String name){
     this.name=name;
-
 }
-//@Column(name = "id_category", nullable = false, insertable = true, updatable = true)
+
     public Long getIdCategory() {
         return idCategory;
     }

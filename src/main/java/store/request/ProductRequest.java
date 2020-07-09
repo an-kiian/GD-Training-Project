@@ -4,8 +4,12 @@ public class ProductRequest {
     private String nameProduct;
     private double price;
     private String description;
-    private long[] categories;
-
+   // private long[] categories;
+public ProductRequest(String nameProduct,double price,String description){
+    this.nameProduct=nameProduct;
+    this.price=price;
+    this.description=description;
+}
     public String getNameProduct() {
         return nameProduct;
     }
@@ -30,11 +34,11 @@ public class ProductRequest {
         this.description = description;
     }
 
-    public long[] getCategories() {
-        return categories;
-    }
-
-    public void setCategories(long[] categories) {
-        this.categories = categories;
-    }
+//    public long[] getCategories() {
+//        return categories;
+//    }
+//
+//    public void setCategories(long[] categories) {
+//        this.categories = categories;
+//    }
 }

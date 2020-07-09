@@ -1,15 +1,15 @@
 package store.request;
 
 public class UpdateProductRequest {
-    private long idProduct;
+    private Long idProduct;
     private double price;
 
 
-    public long getIdProduct() {
+    public Long getIdProduct() {
         return idProduct;
     }
 
-    public void setIdProduct(long idProduct) {
+    public void setIdProduct(Long idProduct) {
         this.idProduct = idProduct;
     }
 
