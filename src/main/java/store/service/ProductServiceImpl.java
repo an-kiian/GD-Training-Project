@@ -14,8 +14,7 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
     public ProductRepository productRepository;
-    ;
- //   CategoryRepository categoryRepository;
+    //   CategoryRepository categoryRepository;
 
     @Autowired
     ProductServiceImpl(ProductRepository productRepository) {
@@ -24,18 +23,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Long id) {
-        Product product;
-        try {
-            product = productRepository.findByIdProduct(id);
-            if (product == null)
-                throw new NotFoundException(id);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return product;
-
+        return productRepository.findByIdProduct(id);
     }
+
     @Override
     public Iterable<Product> getAllProduct() {
         return productRepository.findAll();
@@ -43,49 +33,30 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getProductByName(String nameProduct) {
-       List<Product> products = null;
-        try {
-            products = productRepository.findByName(nameProduct);
-            if (products.isEmpty())
-                throw new NotFoundException(nameProduct);
-        } catch (NotFoundException e) {
-            return null;
-        }
-        return products;
+        return productRepository.findByName(nameProduct);
     }
+
     @Override
     public List<Product> getProductByDescription(String description) {
-        List<Product> products = null;
-        try {
-            products = productRepository.findByDescription(description);
-            if (products.isEmpty())
-                throw new NotFoundException(description);
-        } catch (NotFoundException e) {
-            return null;
-        }
-        return products;
+        return productRepository.findByDescription(description);
     }
+
     public Product updatePrice(UpdateProductRequest updateRequest) {
-        Product productFromDB = null;
-        try {
-            productFromDB = productRepository.findByIdProduct(updateRequest.getIdProduct());
-            if (productFromDB == null) {
-                throw new NotFoundException(updateRequest.getIdProduct());
-            }
-            productFromDB.setPrice(updateRequest.getPrice());
-            productRepository.save(productFromDB);
-        } catch (NotFoundException e) {
+        Product productFromDB = productRepository.findByIdProduct(updateRequest.getIdProduct());
+        if (productFromDB == null)
             return null;
-        }
+        productFromDB.setPrice(updateRequest.getPrice());
+        productRepository.save(productFromDB);
+
         return productFromDB;
     }
 
     public Product addProduct(ProductRequest productRequest) {
         Product product = new Product();
-        product.setNameProduct(productRequest.getNameProduct());
+        product.setName(productRequest.getNameProduct());
         product.setPrice(productRequest.getPrice());
         product.setDescription(productRequest.getDescription());
-       // long[] categories = productRequest.getCategories();
+        // long[] categories = productRequest.getCategories();
         // product.setCategories(categoriesFromArray(categories));
         return productRepository.save(product);
     }

@@ -1,20 +1,25 @@
 package store.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name= "product")
+@Table(name = "product")
+@Getter
+@Setter
 public class Product {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id_product",nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_product", nullable = false)
     private Long idProduct;
-    @Column(name="name",nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(name="price",nullable = false)
+    @Column(name = "price", nullable = false)
     private double price;
-    @Column(name="description",nullable = false)
+    @Column(name = "description", nullable = false)
     private String description;
 //    @ManyToMany
 //    @JoinTable(name="Product_Category",
@@ -27,48 +32,24 @@ public class Product {
 //    private Set<Review> reviews;
 
 
-public Product(){}
-public Product(Long id, long price, String name, String description, Set<Category>categories){
-    this.idProduct=id;
-    this.price=price;
-    this.name=name;
-    this.description=description;
-   // this.categories=categories;
-
-}
-public Product(long price, String name, String description){
-    this.price=price;
-    this.name=name;
-    this.description=description;
-}
-    public Long getIdProduct() {
-        return idProduct;
+    public Product() {
     }
 
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
+    public Product(Long id, long price, String name, String description, Set<Category> categories) {
+        this.idProduct = id;
         this.price = price;
+        this.name = name;
+        this.description = description;
+        // this.categories=categories;
+
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
+    public Product(long price, String name, String description) {
+        this.price = price;
+        this.name = name;
         this.description = description;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setNameProduct(String nameProduct) {
-        this.name = nameProduct;
-    }
 
     @Override
     public String toString() {
@@ -80,7 +61,7 @@ public Product(long price, String name, String description){
                 '}';
     }
 
- //   public Set<Category> getCategories() {
+    //   public Set<Category> getCategories() {
 //        return categories;
 //    }
 //
@@ -89,6 +70,6 @@ public Product(long price, String name, String description){
 //    }
 
     public void setId(Long id) {
-    this.idProduct=id;
+        this.idProduct = id;
     }
 }

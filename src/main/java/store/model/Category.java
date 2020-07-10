@@ -1,23 +1,31 @@
 package store.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "category")
+@Getter
+@Setter
 public class Category {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id_category",nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_category", nullable = false)
     private Long idCategory;
     @Column(nullable = false)
     private String name;
-   // @ManyToMany(fetch = FetchType.EAGER, mappedBy = "categories")
+
+    // @ManyToMany(fetch = FetchType.EAGER, mappedBy = "categories")
     //private Set<Product> products;
-    public Category(){}
-    public Category(String name){
-    this.name=name;
-}
+    public Category() {
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
 
     public Long getIdCategory() {
         return idCategory;
@@ -38,12 +46,4 @@ public class Category {
                 ", name='" + name + '\'' +
                 '}';
     }
-
-    //public Set<Product> getProducts() {
-     //   return products;
-   // }
-
-    //public void setProducts(Set<Product> products) {
-     //   this.products = products;
-   // }
 }

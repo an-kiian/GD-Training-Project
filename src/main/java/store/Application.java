@@ -15,16 +15,9 @@ import store.repository.ProductRepository;
 @EntityScan("store.model")
 @EnableJpaRepositories("store.repository")
 public class Application {
-    @Autowired
-    private ProductRepository productRepository;
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean
-    InitializingBean sendDatabase() {
-        return () -> {
-           productRepository.save(new Product(67,"Pants","Good Pants"));
-            productRepository.save(new Product(31,"Blouse","Bad Blouse"));
-        };
-    }}
+
+}
