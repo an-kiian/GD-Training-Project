@@ -1,20 +1,12 @@
 package store.request;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+
+@Data
 public class ProductRequest {
     private String name;
     private double price;
     private String description;
 
-//    public long[] getCategories() {
-//        return categories;
-//    }
-//
-//    public void setCategories(long[] categories) {
-//        this.categories = categories;
-//    }
 }

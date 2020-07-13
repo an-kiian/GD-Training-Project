@@ -17,5 +17,5 @@ public interface ProductService {
 
     public List<Product> getProductByDescription(String description);
 
-    public Iterable<Product> getAllProduct();
+    public List<Product> getAllProduct();
 }

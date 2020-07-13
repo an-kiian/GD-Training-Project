@@ -8,6 +8,7 @@ import store.model.Product;
 import store.request.ProductRequest;
 import store.request.UpdateProductRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,8 +28,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Iterable<Product> getAllProduct() {
-        return productRepository.findAll();
+    public List<Product> getAllProduct() {
+        List<Product> products = new ArrayList<>();
+        productRepository.findAll().forEach(products::add);
+        return products;
     }
 
     @Override
@@ -53,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
 
     public Product addProduct(ProductRequest productRequest) {
         Product product = new Product();
-        product.setName(productRequest.getNameProduct());
+        product.setName(productRequest.getName());
         product.setPrice(productRequest.getPrice());
         product.setDescription(productRequest.getDescription());
         // long[] categories = productRequest.getCategories();
@@ -79,19 +82,5 @@ public class ProductServiceImpl implements ProductService {
 //        }
 //        return setCategories;
 //    }
-    public Product updatePrice2(Long id, double price) {
-        Product productFromDB = null;
-        try {
-            productFromDB = productRepository.findByIdProduct(id);
-            if (productFromDB == null) {
-                throw new NotFoundException(id);
-            }
-            productFromDB.setPrice(price);
-            productRepository.save(productFromDB);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return productFromDB;
-    }
+
 }

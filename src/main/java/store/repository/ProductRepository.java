@@ -10,9 +10,9 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Long> {
-    List<Product> findByName(String name);
+    public List<Product> findByName(String name);
 
-    List<Product> findByDescription(String description);
+    public List<Product> findByDescription(String description);
 
-    Product findByIdProduct(Long idProduct);
+    public Product findByIdProduct(Long idProduct);
 }

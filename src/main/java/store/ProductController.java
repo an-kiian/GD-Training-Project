@@ -8,10 +8,12 @@ import store.service.ProductService;
 import store.model.Product;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ProductController {
 
-    public ProductService productService;
+    private ProductService productService;
 
     @Autowired
     ProductController(ProductService productService) {
@@ -24,16 +26,17 @@ public class ProductController {
     }
 
     @GetMapping("store/product/getAll")
-    public Iterable<Product> getAllProduct() {
+    public List<Product> getAllProduct() {
         return productService.getAllProduct();
     }
 
     @GetMapping("/store/product/getByName/{nameProduct}")
-    public Iterable<Product> getProductByName(@PathVariable String nameProduct) {
+    public List<Product> getProductByName(@PathVariable String nameProduct) {
         return productService.getProductByName(nameProduct);
     }
 
     @PutMapping("/store/product/updatePrice")
+    @ResponseStatus(HttpStatus.OK)
     public Product updatePrice(@RequestBody UpdateProductRequest updateRequest) {
         return productService.updatePrice(updateRequest);
     }
