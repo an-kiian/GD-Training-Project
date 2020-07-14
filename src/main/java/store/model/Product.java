@@ -18,13 +18,4 @@ public class Product {
     private double price;
     @Column(name = "description", nullable = false)
     private String description;
-
-    public Product() {
-    }
-
-    public Product(long price, String name, String description) {
-        this.price = price;
-        this.name = name;
-        this.description = description;
-    }
 }

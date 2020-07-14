@@ -1,11 +1,11 @@
 package store.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import store.repository.ProductRepository;
 import store.model.Product;
-import store.request.ProductRequest;
-import store.request.UpdateProductRequest;
+import store.dto.ProductDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
     public ProductRepository productRepository;
+    static ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
     ProductServiceImpl(ProductRepository productRepository) {
@@ -20,36 +21,46 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProductById(Long id) {
-        return productRepository.findByIdProduct(id);
+    public ProductDTO getProductById(Long id) {
+
+        return mapToDTO(productRepository.findByIdProduct(id));
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        List<Product> products = new ArrayList<>();
-        productRepository.findAll().forEach(products::add);
-        return products;
+    public List<ProductDTO> getAllProducts() {
+        List<ProductDTO> productsDTO = new ArrayList<>();
+        productRepository.findAll().forEach(product -> productsDTO.add(mapToDTO(product)));
+        return productsDTO;
     }
 
     @Override
-    public List<Product> getProductByName(String nameProduct) {
-        return productRepository.findByName(nameProduct);
+    public List<ProductDTO> getProductByName(String nameProduct) {
+        List<ProductDTO> productsDTO = new ArrayList<>();
+        productRepository.findByName(nameProduct).forEach(product -> productsDTO.add(mapToDTO(product)));
+        return productsDTO;
     }
 
-    public Product updatePrice(UpdateProductRequest updateRequest) {
-        Product productFromDB = productRepository.findByIdProduct(updateRequest.getIdProduct());
+    @Override
+    public ProductDTO updatePrice(ProductDTO productDTO) {
+        Product productFromDB = productRepository.findByIdProduct(productDTO.getIdProduct());
         if (productFromDB == null)
             return null;
-        productFromDB.setPrice(updateRequest.getPrice());
-        productRepository.save(productFromDB);
-        return productFromDB;
+        productFromDB.setPrice(productDTO.getPrice());
+        return mapToDTO(productRepository.save(productFromDB));
     }
 
-    public Product addProduct(ProductRequest productRequest) {
-        Product product = new Product();
-        product.setName(productRequest.getName());
-        product.setPrice(productRequest.getPrice());
-        product.setDescription(productRequest.getDescription());
-        return productRepository.save(product);
+    @Override
+    public ProductDTO addProduct(ProductDTO productDTO) {
+        Product product = mapToEntity(productDTO);
+        return mapToDTO(productRepository.save(product));
     }
+
+    private ProductDTO mapToDTO(Product product) {
+        return modelMapper.map(product, ProductDTO.class);
+    }
+
+    private Product mapToEntity(ProductDTO productDTO) {
+        return modelMapper.map(productDTO, Product.class);
+    }
+
 }

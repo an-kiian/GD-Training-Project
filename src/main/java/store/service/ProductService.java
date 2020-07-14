@@ -1,19 +1,17 @@
 package store.service;
 
-import store.model.Product;
-import store.request.ProductRequest;
-import store.request.UpdateProductRequest;
+import store.dto.ProductDTO;
 
 import java.util.List;
 
 public interface ProductService {
-    public Product getProductById(Long id);
+    public ProductDTO getProductById(Long id);
 
-    public List<Product> getProductByName(String nameProduct);
+    public List<ProductDTO> getProductByName(String nameProduct);
 
-    public Product updatePrice(UpdateProductRequest updateRequest);
+    public ProductDTO updatePrice(ProductDTO productDTO);
 
-    public Product addProduct(ProductRequest productRequest);
+    public ProductDTO addProduct(ProductDTO productDTO);
 
-    public List<Product> getAllProducts();
+    public List<ProductDTO> getAllProducts();
 }

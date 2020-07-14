@@ -18,7 +18,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-/META-INF
+/src/main/resources/META-INF
 GD-Training-Project.iml
 
 # Maven

@@ -2,10 +2,8 @@ package store;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import store.request.ProductRequest;
-import store.request.UpdateProductRequest;
+import store.dto.ProductDTO;
 import store.service.ProductService;
-import store.model.Product;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,29 +18,29 @@ public class ProductController {
     }
 
     @GetMapping("store/product/getById/{idProduct}")
-    public Product getProductById(@PathVariable Long idProduct) {
+    public ProductDTO getProductById(@PathVariable Long idProduct) {
         return productService.getProductById(idProduct);
     }
 
     @GetMapping("store/product/getAll")
-    public List<Product> getAllProducts() {
+    public List<ProductDTO> getAllProducts() {
         return productService.getAllProducts();
     }
 
     @GetMapping("/store/product/getByName/{nameProduct}")
-    public List<Product> getProductByName(@PathVariable String nameProduct) {
+    public List<ProductDTO> getProductByName(@PathVariable String nameProduct) {
         return productService.getProductByName(nameProduct);
     }
 
     @PutMapping("/store/product/updatePrice")
     @ResponseStatus(HttpStatus.OK)
-    public Product updatePrice(@RequestBody UpdateProductRequest updateRequest) {
-        return productService.updatePrice(updateRequest);
+    public ProductDTO updatePrice(@RequestBody ProductDTO productDTO) {
+        return productService.updatePrice(productDTO);
     }
 
     @PostMapping("/store/product/addProduct")
     @ResponseStatus(HttpStatus.CREATED)
-    public Product addProduct(@RequestBody ProductRequest productRequest) {
-        return productService.addProduct(productRequest);
+    public ProductDTO addProduct(@RequestBody ProductDTO productDTO) {
+        return productService.addProduct(productDTO);
     }
 }
