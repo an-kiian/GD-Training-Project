@@ -31,7 +31,6 @@ public class ProductControllerTest {
     private ProductService productService;
     @InjectMocks
     private ProductController productController;
-
     private static ProductDTO mockProduct;
 
     @Before()
@@ -64,7 +63,6 @@ public class ProductControllerTest {
         assertThat(mockProduct.getName()).isEqualTo(resultProduct.getName());
         assertThat(mockProduct.getPrice()).isEqualTo(resultProduct.getPrice());
         assertThat(mockProduct.getIdProduct()).isEqualTo(resultProduct.getIdProduct());
-
     }
 
     @Test
@@ -86,7 +84,6 @@ public class ProductControllerTest {
         assertThat(resultProduct.getPrice()).isEqualTo(mockProduct.getPrice());
         assertThat(resultProduct.getDescription()).isEqualTo(mockProduct.getDescription());
         assertThat(resultProduct.getName()).isEqualTo(mockProduct.getName());
-
     }
 
     @Test

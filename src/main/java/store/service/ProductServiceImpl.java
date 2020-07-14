@@ -62,5 +62,4 @@ public class ProductServiceImpl implements ProductService {
     private Product mapToEntity(ProductDTO productDTO) {
         return modelMapper.map(productDTO, Product.class);
     }
-
 }
