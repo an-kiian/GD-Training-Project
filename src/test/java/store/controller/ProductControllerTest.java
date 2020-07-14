@@ -53,7 +53,7 @@ public class ProductControllerTest {
     public void testGetAllProducts() throws Exception {
         List<Product> productList = new ArrayList<>();
         productList.add(mockProduct);
-        Mockito.when(productService.getAllProduct()).thenReturn(productList);
+        Mockito.when(productService.getAllProducts()).thenReturn(productList);
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
                 "/store/product/getAll").accept(MediaType.APPLICATION_JSON);
         MockHttpServletResponse response = mockMvc.perform(requestBuilder).andReturn().getResponse();
