@@ -15,7 +15,5 @@ public interface ProductService {
 
     public Product addProduct(ProductRequest productRequest);
 
-    public List<Product> getProductByDescription(String description);
-
-    public List<Product> getAllProduct();
+    public List<Product> getAllProducts();
 }

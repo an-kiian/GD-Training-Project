@@ -1,6 +1,5 @@
 package store.service;
 
-import store.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import store.repository.ProductRepository;
@@ -11,11 +10,9 @@ import store.request.UpdateProductRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
 public class ProductServiceImpl implements ProductService {
     public ProductRepository productRepository;
-    //   CategoryRepository categoryRepository;
 
     @Autowired
     ProductServiceImpl(ProductRepository productRepository) {
@@ -28,7 +25,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProduct() {
+    public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
         productRepository.findAll().forEach(products::add);
         return products;
@@ -39,18 +36,12 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findByName(nameProduct);
     }
 
-    @Override
-    public List<Product> getProductByDescription(String description) {
-        return productRepository.findByDescription(description);
-    }
-
     public Product updatePrice(UpdateProductRequest updateRequest) {
         Product productFromDB = productRepository.findByIdProduct(updateRequest.getIdProduct());
         if (productFromDB == null)
             return null;
         productFromDB.setPrice(updateRequest.getPrice());
         productRepository.save(productFromDB);
-
         return productFromDB;
     }
 
@@ -59,28 +50,6 @@ public class ProductServiceImpl implements ProductService {
         product.setName(productRequest.getName());
         product.setPrice(productRequest.getPrice());
         product.setDescription(productRequest.getDescription());
-        // long[] categories = productRequest.getCategories();
-        // product.setCategories(categoriesFromArray(categories));
         return productRepository.save(product);
     }
-
-    //    public Set<Category>categoriesFromArray(long []categories){
-//        Set<Category> setCategories=new HashSet<>();
-//        for(long category:categories)
-//        {
-//         try{
-//             Category categ=categoryRepository.findByIdCategory(category);
-//        if(categ!=null)
-//            setCategories.add(categ);
-//        else
-//            throw new NotFoundException(category);
-//
-//        }catch(NotFoundException e){
-//             e.printStackTrace();
-//             return null;
-//         }
-//        }
-//        return setCategories;
-//    }
-
 }

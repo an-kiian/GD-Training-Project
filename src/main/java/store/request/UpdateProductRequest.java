@@ -6,5 +6,4 @@ import lombok.Data;
 public class UpdateProductRequest {
     private Long idProduct;
     private double price;
-
 }
