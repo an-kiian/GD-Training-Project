@@ -13,30 +13,30 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
     public ProductRepository productRepository;
-    static ModelMapper modelMapper = new ModelMapper();
+    private EntityMapper mapper;
 
     @Autowired
     ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
+        this.mapper = new EntityMapper();
     }
 
     @Override
     public ProductDTO getProductById(Long id) {
-
-        return mapToDTO(productRepository.findByIdProduct(id));
+        return mapper.toDTO(productRepository.findByIdProduct(id));
     }
 
     @Override
     public List<ProductDTO> getAllProducts() {
         List<ProductDTO> productsDTO = new ArrayList<>();
-        productRepository.findAll().forEach(product -> productsDTO.add(mapToDTO(product)));
+        productRepository.findAll().forEach(product -> productsDTO.add(mapper.toDTO(product)));
         return productsDTO;
     }
 
     @Override
     public List<ProductDTO> getProductByName(String nameProduct) {
         List<ProductDTO> productsDTO = new ArrayList<>();
-        productRepository.findByName(nameProduct).forEach(product -> productsDTO.add(mapToDTO(product)));
+        productRepository.findByName(nameProduct).forEach(product -> productsDTO.add(mapper.toDTO(product)));
         return productsDTO;
     }
 
@@ -46,20 +46,12 @@ public class ProductServiceImpl implements ProductService {
         if (productFromDB == null)
             return null;
         productFromDB.setPrice(productDTO.getPrice());
-        return mapToDTO(productRepository.save(productFromDB));
+        return mapper.toDTO(productRepository.save(productFromDB));
     }
 
     @Override
     public ProductDTO addProduct(ProductDTO productDTO) {
-        Product product = mapToEntity(productDTO);
-        return mapToDTO(productRepository.save(product));
-    }
-
-    private ProductDTO mapToDTO(Product product) {
-        return modelMapper.map(product, ProductDTO.class);
-    }
-
-    private Product mapToEntity(ProductDTO productDTO) {
-        return modelMapper.map(productDTO, Product.class);
+        Product product = mapper.toEntity(productDTO);
+        return mapper.toDTO(productRepository.save(product));
     }
 }
