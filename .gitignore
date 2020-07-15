@@ -18,6 +18,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+/src/main/resources/META-INF
+GD-Training-Project.iml
+
 # Maven
 target/
 pom.xml.tag
