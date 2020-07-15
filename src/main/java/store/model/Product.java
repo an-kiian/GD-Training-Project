@@ -11,11 +11,11 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_product", nullable = false)
-    private Long idProduct;
-    @Column(name = "name", nullable = false)
+    private Long id;
+    @Column(name = "name")
     private String name;
-    @Column(name = "price", nullable = false)
+    @Column(name = "price")
     private double price;
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 }

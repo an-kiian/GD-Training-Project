@@ -26,7 +26,6 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProductControllerTest {
-    private MockMvc mockMvc;
     @Mock
     private ProductService productService;
     @InjectMocks
@@ -34,68 +33,76 @@ public class ProductControllerTest {
     private static ProductDTO mockProduct;
 
     @Before()
-    public void setUp() throws JsonProcessingException {
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(productController).build();
+    public void setUp() {
         mockProduct = new ProductDTO("Test Product", 100, "Test Description");
-        mockProduct.setIdProduct(1L);
+        mockProduct.setId(1L);
     }
 
     @Test
-    public void testGetAllProducts() throws Exception {
+    public void testGetAllProducts(){
+        //given
         List<ProductDTO> productList = new ArrayList<>();
         productList.add(mockProduct);
         productList.add(new ProductDTO("Test Product 2", 200, "Test Description 2"));
-        Mockito.when(productService.getAllProducts()).thenReturn(productList);
-        List<ProductDTO> resultList = productService.getAllProducts();
-        Mockito.verify(productService, Mockito.times(1)).getAllProducts();
+        Mockito.when(productController.getAllProducts()).thenReturn(productList);
+        //when
+        List<ProductDTO> resultList = productController.getAllProducts();
+        //then
         assertEquals(resultList.size(), 2);
-        assertThat(resultList.get(0).getName()).isEqualTo(productList.get(0).getName());
-        assertThat(resultList.get(1).getName()).isEqualTo(productList.get(1).getName());
+        assertEquals(resultList.get(0).getName(),productList.get(0).getName());
+        assertEquals(resultList.get(1).getName(),productList.get(1).getName());
     }
 
     @Test
-    public void testGetProductById() throws Exception {
-        Mockito.when(productService.getProductById(Mockito.anyLong())).thenReturn(mockProduct);
-        ProductDTO resultProduct = productService.getProductById(1L);
-        Mockito.verify(productService, Mockito.times(1)).getProductById(1l);
-        assertThat(mockProduct.getDescription()).isEqualTo(resultProduct.getDescription());
-        assertThat(mockProduct.getName()).isEqualTo(resultProduct.getName());
-        assertThat(mockProduct.getPrice()).isEqualTo(resultProduct.getPrice());
-        assertThat(mockProduct.getIdProduct()).isEqualTo(resultProduct.getIdProduct());
+    public void testGetProductById(){
+        //given
+        Mockito.when(productController.getProductById(Mockito.anyLong())).thenReturn(mockProduct);
+        //when
+        ProductDTO resultProduct = productController.getProductById(1L);
+        //then
+        assertEquals(mockProduct.getDescription(),resultProduct.getDescription());
+        assertEquals(mockProduct.getName(),resultProduct.getName());
+        assertEquals(mockProduct.getPrice(),resultProduct.getPrice(),0);
+        assertEquals(mockProduct.getId(),resultProduct.getId());
     }
 
     @Test
-    public void testGetProductByName() throws Exception {
+    public void testGetProductByName(){
+        //given
         List<ProductDTO> productList = new ArrayList<>();
         productList.add(mockProduct);
-        Mockito.when(productService.getProductByName(Mockito.anyString())).thenReturn(productList);
-        List<ProductDTO> resultList = productService.getProductByName("Test Product");
-        Mockito.verify(productService, Mockito.times(1)).getProductByName("Test Product");
+        Mockito.when(productController.getProductByName(Mockito.anyString())).thenReturn(productList);
+        //when
+        List<ProductDTO> resultList = productController.getProductByName("Test Product");
+        //then
         assertEquals(resultList.size(), 1);
-        assertThat(resultList.get(0).getName()).isEqualTo(mockProduct.getName());
+        assertEquals(resultList.get(0).getName(),mockProduct.getName());
     }
 
     @Test
-    public void testAddProduct() throws Exception {
-        Mockito.when(productService.addProduct(Mockito.any(ProductDTO.class))).thenReturn(mockProduct);
-        ProductDTO resultProduct = productService.addProduct(mockProduct);
-        Mockito.verify(productService, Mockito.times(1)).addProduct(mockProduct);
-        assertThat(resultProduct.getPrice()).isEqualTo(mockProduct.getPrice());
-        assertThat(resultProduct.getDescription()).isEqualTo(mockProduct.getDescription());
-        assertThat(resultProduct.getName()).isEqualTo(mockProduct.getName());
+    public void testAddProduct(){
+        //given
+        Mockito.when(productController.addProduct(Mockito.any(ProductDTO.class))).thenReturn(mockProduct);
+        //when
+        ProductDTO resultProduct = productController.addProduct(mockProduct);
+        //then
+        assertEquals(resultProduct.getPrice(),mockProduct.getPrice(),0);
+        assertEquals(resultProduct.getDescription(),mockProduct.getDescription());
+        assertEquals(resultProduct.getName(),mockProduct.getName());
     }
 
     @Test
-    public void testUpdatePrice() throws Exception {
+    public void testUpdatePrice() {
+        //given
         ProductDTO updateProduct = new ProductDTO();
-        updateProduct.setIdProduct(1L);
+        updateProduct.setId(1L);
         updateProduct.setPrice(100L);
-        Mockito.when(productService.updatePrice(Mockito.any(ProductDTO.class))).thenReturn(mockProduct);
-        ProductDTO resultProduct = productService.updatePrice(updateProduct);
-        Mockito.verify(productService, Mockito.times(1)).updatePrice(updateProduct);
-        assertThat(resultProduct.getPrice()).isEqualTo(mockProduct.getPrice());
-        assertThat(resultProduct.getIdProduct()).isEqualTo(mockProduct.getIdProduct());
-        assertThat(resultProduct.getName()).isEqualTo(mockProduct.getName());
+        Mockito.when(productController.updatePrice(Mockito.any(ProductDTO.class))).thenReturn(mockProduct);
+        //when
+        ProductDTO resultProduct = productController.updatePrice(updateProduct);
+        //then
+        assertEquals(resultProduct.getPrice(),mockProduct.getPrice(),0);
+        assertEquals(resultProduct.getId(),mockProduct.getId());
+        assertEquals(resultProduct.getName(),mockProduct.getName());
     }
 }
