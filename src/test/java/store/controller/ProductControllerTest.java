@@ -1,10 +1,5 @@
 package store.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.AdditionalMatchers.not;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +14,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import store.ProductController;
 import store.dto.ProductDTO;
 import store.service.ProductService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;

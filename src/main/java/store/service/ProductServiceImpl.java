@@ -1,16 +1,17 @@
 package store.service;
 
-import org.modelmapper.ModelMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import store.repository.ProductRepository;
-import store.model.Product;
 import store.dto.ProductDTO;
+import store.model.Product;
+import store.repository.ProductRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ProductServiceImpl implements ProductService {
     public ProductRepository productRepository;
     private EntityMapper mapper;

@@ -1,17 +1,19 @@
 package store.service;
 
 import store.dto.ProductDTO;
-
+import org.springframework.stereotype.Service;
 import java.util.List;
 
+@Service
 public interface ProductService {
-    public ProductDTO getProductById(Long id);
 
-    public List<ProductDTO> getProductByName(String nameProduct);
+    ProductDTO getProductById(Long id);
 
-    public ProductDTO updatePrice(ProductDTO productDTO);
+    List<ProductDTO> getProductByName(String nameProduct);
 
-    public ProductDTO addProduct(ProductDTO productDTO);
+    ProductDTO updatePrice(ProductDTO productDTO);
 
-    public List<ProductDTO> getAllProducts();
+    ProductDTO addProduct(ProductDTO productDTO);
+
+    List<ProductDTO> getAllProducts();
 }

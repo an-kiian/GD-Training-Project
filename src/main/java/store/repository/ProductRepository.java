@@ -8,7 +8,8 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Long> {
-    public List<Product> findByName(String name);
 
-    public Product findByIdProduct(Long idProduct);
+    List<Product> findByName(String name);
+
+    Product findByIdProduct(Long idProduct);
 }
