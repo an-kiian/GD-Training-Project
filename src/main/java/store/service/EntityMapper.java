@@ -5,6 +5,7 @@ import store.dto.ProductDTO;
 import store.model.Product;
 
 public class EntityMapper {
+
     private ModelMapper modelMapper;
 
     EntityMapper() {
