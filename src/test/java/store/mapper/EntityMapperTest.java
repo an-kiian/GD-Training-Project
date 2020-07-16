@@ -15,7 +15,7 @@ public class EntityMapperTest {
 
     @Before
     public void setUp() {
-        this.mapper = new EntityMapper<>();
+        this.mapper = (EntityMapper<Product, ProductDTO>) EntityMapper.getInstance();
     }
 
     @Test
