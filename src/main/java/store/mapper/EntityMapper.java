@@ -1,11 +1,7 @@
 package store.mapper;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 
 import java.util.Objects;
 
@@ -17,9 +13,11 @@ public class EntityMapper<Entity, DTO> {
     private EntityMapper() {
         this.modelMapper = getModelMapperInstance();
     }
-    public static EntityMapper<?,?> getInstance() {
+
+    public static EntityMapper<?, ?> getInstance() {
         return EntityMapperHolder.HOLDER_INSTANCE;
     }
+
     public DTO toDTO(Entity from, Class toClass) {
         return Objects.isNull(from) ? null : (DTO) modelMapper.map(from, toClass);
     }
