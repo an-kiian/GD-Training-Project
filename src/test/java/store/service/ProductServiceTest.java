@@ -1,19 +1,19 @@
 package store.service;
 
-import com.fasterxml.jackson.core.json.DupDetector;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import store.dto.ProductDTO;
+import store.mapper.EntityMapper;
 import store.model.Product;
 import store.repository.ProductRepository;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,7 +33,7 @@ public class ProductServiceTest {
 
     private ProductDTO productDTOFromMapper;
 
-    private EntityMapper mapper;
+    private EntityMapper<Product, ProductDTO> mapper;
 
     List<Product> list;
 
@@ -41,7 +41,7 @@ public class ProductServiceTest {
     public void setUp() {
         //given
         product = new Product();
-        product.setIdProduct(1L);
+        product.setId(1L);
         product.setName("name1");
         product.setPrice(10);
         product.setDescription("desc1");
@@ -49,22 +49,22 @@ public class ProductServiceTest {
 
         //given productDTO from mapper
         mapper = new EntityMapper();
-        productDTOFromMapper = mapper.toDTO(product);
+        productDTOFromMapper = mapper.toDTO(product, ProductDTO.class);
     }
 
     @Test
     public void testGetById() {
         //when
-        when(repository.findByIdProduct(1L)).thenReturn(product);
+        when(repository.findById(1L)).thenReturn(product);
 
         //then
         ProductDTO resultProductDTO = service.getProductById(1L);
 
         //test the method is calling
-        verify(repository).findByIdProduct(1L);
+        verify(repository).findById(1L);
 
         //checking correct data for productDTO
-        assertEquals(product, mapper.toEntity(resultProductDTO));
+        assertEquals(product, mapper.toEntity(resultProductDTO, Product.class));
         //checking correct data for mapper
         assertEquals(productDTOFromMapper, resultProductDTO);
     }
@@ -77,7 +77,7 @@ public class ProductServiceTest {
         //then
         List<ProductDTO> resultList = service.getProductByName("name1");
         //convert list of productDTO to list of product
-        List<Product> resultProductList = resultList.stream().map(prod -> mapper.toEntity(prod)).collect(Collectors.toList());
+        List<Product> resultProductList = resultList.stream().map(prodDTO -> mapper.toEntity(prodDTO, Product.class)).collect(Collectors.toList());
 
         //test the method is calling
         verify(repository).findByName("name1");
@@ -92,7 +92,7 @@ public class ProductServiceTest {
     public void testGetAll() {
         //given
         Product newProduct = new Product();
-        newProduct.setIdProduct(2L);
+        newProduct.setId(2L);
         newProduct.setName("name2");
         newProduct.setPrice(20);
         newProduct.setDescription("desc2");
@@ -105,7 +105,7 @@ public class ProductServiceTest {
         //then
         List<ProductDTO> resultList = service.getAllProducts();
         //convert list of productDTO to list of product
-        List<Product> resultProductList = resultList.stream().map(prod -> mapper.toEntity(prod)).collect(Collectors.toList());
+        List<Product> resultProductList = resultList.stream().map(prodDTO -> mapper.toEntity(prodDTO, Product.class)).collect(Collectors.toList());
 
         //test the method is calling
         verify(repository).findAll();
@@ -120,7 +120,7 @@ public class ProductServiceTest {
     public void testAdd() {
         //given
         Product addedProduct = new Product();
-        addedProduct.setIdProduct(3L);
+        addedProduct.setId(3L);
         addedProduct.setName("name3");
         addedProduct.setPrice(30);
         addedProduct.setDescription("desc3");
@@ -129,43 +129,43 @@ public class ProductServiceTest {
         when(repository.save(addedProduct)).thenReturn(addedProduct);
 
         //then
-        ProductDTO resultAddedProductDTO = service.addProduct(mapper.toDTO(addedProduct));
+        ProductDTO resultAddedProductDTO = service.addProduct(mapper.toDTO(addedProduct, ProductDTO.class));
 
         //test the method is calling
         verify(repository).save(addedProduct);
         //checking correct data
-        assertEquals(addedProduct, mapper.toEntity(resultAddedProductDTO));
+        assertEquals(addedProduct, mapper.toEntity(resultAddedProductDTO, Product.class));
     }
 
     @Test
     public void testUpdatePrice() {
         //given
         Product updateProduct = new Product();
-        updateProduct.setIdProduct(1L);
+        updateProduct.setId(1L);
         updateProduct.setPrice(101);
         updateProduct.setName("name1");
         updateProduct.setDescription("desc1");
 
         //when
         when(repository.save(updateProduct)).thenReturn(product);
-        when(repository.findByIdProduct(1L)).thenReturn(product);
+        when(repository.findById(1L)).thenReturn(product);
 
         //then
-        ProductDTO resultUpdateProduct = service.updatePrice(mapper.toDTO(updateProduct));
+        ProductDTO resultUpdateProduct = service.updatePrice(mapper.toDTO(updateProduct, ProductDTO.class));
 
         //testing the method is calling
         verify(repository).save(updateProduct);
 
         //checking correct data
-        assertEquals(updateProduct, mapper.toEntity(resultUpdateProduct));
+        assertEquals(updateProduct, mapper.toEntity(resultUpdateProduct, Product.class));
 
 
         //TEST IF PRODUCT NOT FOUND IN DATABASE
         //given
-        updateProduct.setIdProduct(5L);
+        updateProduct.setId(5L);
 
         //then
-        ProductDTO nullProduct = service.updatePrice(mapper.toDTO(updateProduct));
+        ProductDTO nullProduct = service.updatePrice(mapper.toDTO(updateProduct, ProductDTO.class));
 
         //checking correct data
         assertEquals(null, nullProduct);
