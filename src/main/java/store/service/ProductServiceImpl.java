@@ -1,8 +1,8 @@
 package store.service;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import store.mapper.EntityMapper;
 import store.repository.ProductRepository;
 import store.model.Product;
 import store.dto.ProductDTO;
@@ -12,46 +12,45 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    public ProductRepository productRepository;
-    private EntityMapper mapper;
+    private ProductRepository productRepository;
+    private EntityMapper<Product, ProductDTO> mapper = new EntityMapper<>();
 
     @Autowired
     ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.mapper = new EntityMapper();
     }
 
     @Override
     public ProductDTO getProductById(Long id) {
-        return mapper.toDTO(productRepository.findByIdProduct(id));
+        return mapper.toDTO(productRepository.findById(id), ProductDTO.class);
     }
 
     @Override
     public List<ProductDTO> getAllProducts() {
         List<ProductDTO> productsDTO = new ArrayList<>();
-        productRepository.findAll().forEach(product -> productsDTO.add(mapper.toDTO(product)));
+        productRepository.findAll().forEach(product -> productsDTO.add(mapper.toDTO(product, ProductDTO.class)));
         return productsDTO;
     }
 
     @Override
     public List<ProductDTO> getProductByName(String nameProduct) {
         List<ProductDTO> productsDTO = new ArrayList<>();
-        productRepository.findByName(nameProduct).forEach(product -> productsDTO.add(mapper.toDTO(product)));
+        productRepository.findByName(nameProduct).forEach(product -> productsDTO.add(mapper.toDTO(product, ProductDTO.class)));
         return productsDTO;
     }
 
     @Override
     public ProductDTO updatePrice(ProductDTO productDTO) {
-        Product productFromDB = productRepository.findByIdProduct(productDTO.getIdProduct());
+        Product productFromDB = productRepository.findById(productDTO.getId());
         if (productFromDB == null)
             return null;
         productFromDB.setPrice(productDTO.getPrice());
-        return mapper.toDTO(productRepository.save(productFromDB));
+        return mapper.toDTO(productRepository.save(productFromDB), ProductDTO.class);
     }
 
     @Override
     public ProductDTO addProduct(ProductDTO productDTO) {
-        Product product = mapper.toEntity(productDTO);
-        return mapper.toDTO(productRepository.save(product));
+        Product product = mapper.toEntity(productDTO, Product.class);
+        return mapper.toDTO(productRepository.save(product), ProductDTO.class);
     }
 }
