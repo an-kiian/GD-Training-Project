@@ -1,8 +1,8 @@
 package store.repository;
 
-import store.model.Product;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import store.model.Product;
 
 import java.util.List;
 
