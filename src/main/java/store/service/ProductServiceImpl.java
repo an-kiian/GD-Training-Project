@@ -13,12 +13,11 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
-    private EntityMapper<Product, ProductDTO> mapper;
+    private static EntityMapper<Product, ProductDTO> mapper = new EntityMapper<>();
 
     @Autowired
-    ProductServiceImpl(ProductRepository productRepository, EntityMapper<Product, ProductDTO> mapper) {
+    ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.mapper = mapper;
     }
 
     @Override

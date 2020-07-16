@@ -23,7 +23,7 @@ public class ProductControllerTest {
     private ProductService productService;
     @InjectMocks
     private ProductController productController;
-    private static ProductDTO mockProduct;
+    private ProductDTO mockProduct;
 
     @Before()
     public void setUp() {
@@ -37,10 +37,10 @@ public class ProductControllerTest {
         List<ProductDTO> productList = new ArrayList<>();
         productList.add(mockProduct);
         productList.add(new ProductDTO("Test Product 2", 200, "Test Description 2"));
-        Mockito.when(productController.getAllProducts()).thenReturn(productList);
         //when
-        List<ProductDTO> resultList = productController.getAllProducts();
+        Mockito.when(productService.getAllProducts()).thenReturn(productList);
         //then
+        List<ProductDTO> resultList = productController.getAllProducts();
         assertEquals(resultList.size(), 2);
         assertEquals(resultList.get(0).getName(), productList.get(0).getName());
         assertEquals(resultList.get(1).getName(), productList.get(1).getName());
@@ -48,11 +48,10 @@ public class ProductControllerTest {
 
     @Test
     public void testGetProductById() {
-        //given
-        Mockito.when(productController.getProductById(Mockito.anyLong())).thenReturn(mockProduct);
         //when
-        ProductDTO resultProduct = productController.getProductById(1L);
+        Mockito.when(productService.getProductById(Mockito.anyLong())).thenReturn(mockProduct);
         //then
+        ProductDTO resultProduct = productController.getProductById(1L);
         assertEquals(mockProduct.getDescription(), resultProduct.getDescription());
         assertEquals(mockProduct.getName(), resultProduct.getName());
         assertEquals(mockProduct.getPrice(), resultProduct.getPrice(), 0);
@@ -64,21 +63,20 @@ public class ProductControllerTest {
         //given
         List<ProductDTO> productList = new ArrayList<>();
         productList.add(mockProduct);
-        Mockito.when(productController.getProductByName(Mockito.anyString())).thenReturn(productList);
         //when
-        List<ProductDTO> resultList = productController.getProductByName("Test Product");
+        Mockito.when(productService.getProductByName(Mockito.anyString())).thenReturn(productList);
         //then
+        List<ProductDTO> resultList = productController.getProductByName("Test Product");
         assertEquals(resultList.size(), 1);
         assertEquals(resultList.get(0).getName(), mockProduct.getName());
     }
 
     @Test
     public void testAddProduct() {
-        //given
-        Mockito.when(productController.addProduct(Mockito.any(ProductDTO.class))).thenReturn(mockProduct);
         //when
-        ProductDTO resultProduct = productController.addProduct(mockProduct);
+        Mockito.when(productService.addProduct(Mockito.any(ProductDTO.class))).thenReturn(mockProduct);
         //then
+        ProductDTO resultProduct = productController.addProduct(mockProduct);
         assertEquals(resultProduct.getPrice(), mockProduct.getPrice(), 0);
         assertEquals(resultProduct.getDescription(), mockProduct.getDescription());
         assertEquals(resultProduct.getName(), mockProduct.getName());
@@ -90,10 +88,10 @@ public class ProductControllerTest {
         ProductDTO updateProduct = new ProductDTO();
         updateProduct.setId(1L);
         updateProduct.setPrice(100L);
-        Mockito.when(productController.updatePrice(Mockito.any(ProductDTO.class))).thenReturn(mockProduct);
         //when
-        ProductDTO resultProduct = productController.updatePrice(updateProduct);
+        Mockito.when(productService.updatePrice(Mockito.any(ProductDTO.class))).thenReturn(mockProduct);
         //then
+        ProductDTO resultProduct = productController.updatePrice(updateProduct);
         assertEquals(resultProduct.getPrice(), mockProduct.getPrice(), 0);
         assertEquals(resultProduct.getId(), mockProduct.getId());
         assertEquals(resultProduct.getName(), mockProduct.getName());

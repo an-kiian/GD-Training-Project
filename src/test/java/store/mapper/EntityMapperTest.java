@@ -8,26 +8,22 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import store.dto.ProductDTO;
 import store.model.Product;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.eq;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EntityMapperTest {
-    @Mock
-    private ModelMapper modelMapper;
-    @InjectMocks
     private EntityMapper<Product, ProductDTO> mapper;
     private Product product;
     private ProductDTO productDTO;
 
     @Before
     public void setUp() {
+        this.mapper = new EntityMapper<>();
         product = new Product();
         product.setPrice(100);
         product.setDescription("Product Description");
@@ -39,11 +35,7 @@ public class EntityMapperTest {
 
     @Test
     public void testToDTO() {
-        //given
-        Mockito.when(mapper.toDTO(Mockito.any(Product.class), eq(ProductDTO.class))).thenReturn(productDTO);
-        //when
         ProductDTO resultDTO = mapper.toDTO(product, ProductDTO.class);
-        //then
         assertEquals(resultDTO.getName(), product.getName());
         assertEquals(resultDTO.getDescription(), product.getDescription());
         assertEquals(resultDTO.getPrice(), product.getPrice(), 0);
@@ -52,11 +44,7 @@ public class EntityMapperTest {
 
     @Test
     public void testToEntity() {
-        //given
-        Mockito.when(mapper.toEntity(Mockito.any(ProductDTO.class), eq(Product.class))).thenReturn(product);
-        //when
         Product resultProduct = mapper.toEntity(productDTO, Product.class);
-        //then
         assertEquals(resultProduct.getName(), productDTO.getName());
         assertEquals(resultProduct.getDescription(), productDTO.getDescription());
         assertEquals(resultProduct.getPrice(), productDTO.getPrice(), 0);
