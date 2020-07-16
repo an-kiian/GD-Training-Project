@@ -2,10 +2,10 @@ package store.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import store.dto.ProductDTO;
 import store.mapper.EntityMapper;
-import store.model.Product;
 import store.repository.ProductRepository;
+import store.model.Product;
+import store.dto.ProductDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
-    private static EntityMapper<Product, ProductDTO> mapper = new EntityMapper<>();
+    private EntityMapper<Product, ProductDTO> mapper = new EntityMapper<>();
 
     @Autowired
     ProductServiceImpl(ProductRepository productRepository) {

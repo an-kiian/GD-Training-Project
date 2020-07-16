@@ -8,7 +8,7 @@ import java.util.Objects;
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 public class EntityMapper<Entity, DTO> {
-    private static ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     public EntityMapper() {
         this.modelMapper = getModelMapperInstance();
