@@ -22,12 +22,12 @@ public class ProductController {
         return productService.getProductById(id);
     }
 
-    @GetMapping("store/product/")
+    @GetMapping("store/product")
     public List<ProductDTO> getAllProducts() {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/store/product/name")
+    @GetMapping("/store/product/name/{name}")
     public List<ProductDTO> getProductByName(@PathVariable String name) {
         return productService.getProductByName(name);
     }
@@ -38,7 +38,7 @@ public class ProductController {
         return productService.updatePrice(productDTO);
     }
 
-    @PostMapping("/store/product/")
+    @PostMapping("/store/product")
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDTO addProduct(@RequestBody ProductDTO productDTO) {
         return productService.addProduct(productDTO);

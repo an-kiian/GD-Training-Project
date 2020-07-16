@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.modelmapper.ModelMapper;
 import store.dto.ProductDTO;
 import store.model.Product;
 
@@ -19,6 +20,8 @@ import static org.mockito.Matchers.eq;
 @RunWith(MockitoJUnitRunner.class)
 public class EntityMapperTest {
     @Mock
+    private ModelMapper modelMapper;
+    @InjectMocks
     private EntityMapper<Product, ProductDTO> mapper;
     private Product product;
     private ProductDTO productDTO;

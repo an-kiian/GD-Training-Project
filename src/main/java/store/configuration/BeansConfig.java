@@ -4,21 +4,18 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import store.dto.ProductDTO;
 import store.mapper.EntityMapper;
-import store.model.Product;
 
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 @Configuration
-public class AppConfig {
+public class BeansConfig {
     @Bean
-    public EntityMapper<Product, ProductDTO> productMapper() {
-        return new EntityMapper();
+    public <Entity,DTO>EntityMapper<Entity, DTO> getEntityMapperInstance() {
+        return new EntityMapper<Entity,DTO>();
     }
-
     @Bean
-    public ModelMapper modelMapper() {
+    public ModelMapper getModelMapperInstance() {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STRICT)

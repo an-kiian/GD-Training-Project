@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    public ProductRepository productRepository;
+    private ProductRepository productRepository;
     private EntityMapper<Product, ProductDTO> mapper;
 
     @Autowired
