@@ -38,5 +38,12 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = mapper.toEntity(categoryDTO, Category.class);
         return mapper.toDTO(categoryRepository.save(category), CategoryDTO.class);
     }
+
+    @Override
+    public List<CategoryDTO> getCategoryByName(String name) {
+        List<CategoryDTO> categoriesDTO = new ArrayList<>();
+        categoryRepository.findByName(name).forEach(category -> categoriesDTO.add(mapper.toDTO(category, CategoryDTO.class)));
+        return categoriesDTO;
+    }
 }
 
