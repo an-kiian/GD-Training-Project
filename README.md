@@ -17,8 +17,9 @@ Product management:
 ## Summary
 
   - [Getting Started](#getting-started)
-  - [Installing and Deployment](#deployment)
-  - [Built With](#built-with)
+  - [Prerequisites](#prerequisites)
+  - [Installing and Deployment](#installing-and-deployment)
+
 
 
 ## Getting Started
@@ -35,8 +36,8 @@ For install maven you need to download package from the official [resource](http
 
 **IntelliJ IDEA**
 
-You need to install Ultimate [version](https://www.jetbrains.com/idea/promo/ultimate/?gclid=CjwKCAjwmMX4BRAAEiwA-zM4JogGjxxekfBMsDbtXyjyMEA_iB-_ii3aldVTHvjOrl7fOgTLPl3d8RoCVvUQAvD_BwE) for project use. 
-Additional you need to add Lombok plugin according to the [guideline](https://projectlombok.org/setup/intellij).
+- download IntelliJ IDEA [Ultimate version](https://www.jetbrains.com/idea/promo/ultimate/?gclid=CjwKCAjwmMX4BRAAEiwA-zM4JogGjxxekfBMsDbtXyjyMEA_iB-_ii3aldVTHvjOrl7fOgTLPl3d8RoCVvUQAvD_BwE). 
+- add Lombok plugin according to the [guideline](https://projectlombok.org/setup/intellij).
 
 **Postman**
 
@@ -58,13 +59,15 @@ To start the project from the command line, you need to run the following  comma
 **Using IntelliJ IDEA**
 
 For correct project start with IntelliJ IDEA you need to 
-run class /GD-Training-Project/src/main/java/store/Application.java
+run class 
+
+    /GD-Training-Project/src/main/java/store/Application.java
 
 ### Check service functionality
 
 It is possible to use postman [collection](https://www.getpostman.com/collections/6e08a7f7503e5e63101c) for check service or make own requests.
 
-There are 3 types of requests: *GET*, *POST* and *PUT* in the system.
+There are 3 requests types: *GET*, *POST* and *PUT* in the system.
 
 1.GET:
 - get product by id: http://localhost:8080/store/product/{id}, where {id} is a needed product id.
