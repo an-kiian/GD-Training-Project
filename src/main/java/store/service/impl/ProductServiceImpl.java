@@ -1,4 +1,4 @@
-package store.service;
+package store.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,6 +6,7 @@ import store.mapper.EntityMapper;
 import store.repository.ProductRepository;
 import store.model.Product;
 import store.dto.ProductDTO;
+import store.service.ProductService;
 
 import java.util.ArrayList;
 import java.util.List;
