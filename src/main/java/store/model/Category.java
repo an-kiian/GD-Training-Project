@@ -9,9 +9,6 @@ import javax.persistence.*;
 @Data
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_category", nullable = false)
-    private Long id;
     @Column(name = "name")
     private String name;
 }

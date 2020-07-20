@@ -8,7 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CategoryRepository extends CrudRepository<Category, Long> {
-    Category findById(Long id);
-
-    List<Category> findByName(String name);
+    Category findByName(String name);
 }
