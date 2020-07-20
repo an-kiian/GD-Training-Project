@@ -85,7 +85,7 @@ To start the project from the command line, you need to run the following  comma
     
     mvn clean
     mvn compile
-    mvn spring-boot:run
+    mvn spring-boot:run -Drun.arguments=--spring.datasource.username=[your_username], --spring.datasource.password=[your_password]
     
 **Using IntelliJ IDEA**
 
