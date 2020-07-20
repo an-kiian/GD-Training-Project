@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -158,16 +159,21 @@ public class ProductServiceTest {
 
         //checking correct data
         assertEquals(updateProduct, mapper.toEntity(resultUpdateProduct, Product.class));
+    }
 
-
-        //TEST IF PRODUCT NOT FOUND IN DATABASE
+    @Test
+    public void testUpdatePriceForIncorrectId() {
         //given
+        Product updateProduct = product;
         updateProduct.setId(5L);
 
-        //then
+        //when
+        when(repository.save(updateProduct)).thenReturn(product);
+
+        // then
         ProductDTO nullProduct = service.updatePrice(mapper.toDTO(updateProduct, ProductDTO.class));
 
         //checking correct data
-        assertEquals(null, nullProduct);
+        assertNull(nullProduct);
     }
 }
