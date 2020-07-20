@@ -38,14 +38,18 @@ public class ProductServiceTest {
 
     List<Product> list;
 
+    private final Long id = 1L;
+    private final String name = "name1";
+    private final String description = "desc1";
+
     @Before
     public void setUp() {
         //given
         product = new Product();
-        product.setId(1L);
-        product.setName("name1");
+        product.setId(id);
+        product.setName(name);
         product.setPrice(10);
-        product.setDescription("desc1");
+        product.setDescription(description);
         list = Collections.singletonList(product);
 
         //given productDTO from mapper
@@ -56,13 +60,13 @@ public class ProductServiceTest {
     @Test
     public void testGetById() {
         //when
-        when(repository.findById(1L)).thenReturn(product);
+        when(repository.findById(id)).thenReturn(product);
 
         //then
-        ProductDTO resultProductDTO = service.getProductById(1L);
+        ProductDTO resultProductDTO = service.getProductById(id);
 
         //test the method is calling
-        verify(repository).findById(1L);
+        verify(repository).findById(id);
 
         //checking correct data for productDTO
         assertEquals(product, mapper.toEntity(resultProductDTO, Product.class));
@@ -73,15 +77,15 @@ public class ProductServiceTest {
     @Test
     public void testGetByName() {
         //when
-        when(repository.findByName("name1")).thenReturn(list);
+        when(repository.findByName(name)).thenReturn(list);
 
         //then
-        List<ProductDTO> resultList = service.getProductByName("name1");
+        List<ProductDTO> resultList = service.getProductByName(name);
         //convert list of productDTO to list of product
         List<Product> resultProductList = resultList.stream().map(prodDTO -> mapper.toEntity(prodDTO, Product.class)).collect(Collectors.toList());
 
         //test the method is calling
-        verify(repository).findByName("name1");
+        verify(repository).findByName(name);
 
         //checking correct data
         assertEquals(1, resultList.size());
@@ -142,14 +146,14 @@ public class ProductServiceTest {
     public void testUpdatePrice() {
         //given
         Product updateProduct = new Product();
-        updateProduct.setId(1L);
+        updateProduct.setId(id);
         updateProduct.setPrice(101);
-        updateProduct.setName("name1");
-        updateProduct.setDescription("desc1");
+        updateProduct.setName(name);
+        updateProduct.setDescription(description);
 
         //when
         when(repository.save(updateProduct)).thenReturn(product);
-        when(repository.findById(1L)).thenReturn(product);
+        when(repository.findById(id)).thenReturn(product);
 
         //then
         ProductDTO resultUpdateProduct = service.updatePrice(mapper.toDTO(updateProduct, ProductDTO.class));
