@@ -38,18 +38,18 @@ public class ProductServiceTest {
 
     List<Product> list;
 
-    private final Long id = 1L;
-    private final String name = "name1";
-    private final String description = "desc1";
+    private static final Long ID = 1L;
+    private static final String NAME = "name1";
+    private static final String DESCRIPTION = "desc1";
 
     @Before
     public void setUp() {
         //given
         product = new Product();
-        product.setId(id);
-        product.setName(name);
+        product.setId(ID);
+        product.setName(NAME);
         product.setPrice(10);
-        product.setDescription(description);
+        product.setDescription(DESCRIPTION);
         list = Collections.singletonList(product);
 
         //given productDTO from mapper
@@ -60,13 +60,13 @@ public class ProductServiceTest {
     @Test
     public void testGetById() {
         //when
-        when(repository.findById(id)).thenReturn(product);
+        when(repository.findById(ID)).thenReturn(product);
 
         //then
-        ProductDTO resultProductDTO = service.getProductById(id);
+        ProductDTO resultProductDTO = service.getProductById(ID);
 
         //test the method is calling
-        verify(repository).findById(id);
+        verify(repository).findById(ID);
 
         //checking correct data for productDTO
         assertEquals(product, mapper.toEntity(resultProductDTO, Product.class));
@@ -77,15 +77,15 @@ public class ProductServiceTest {
     @Test
     public void testGetByName() {
         //when
-        when(repository.findByName(name)).thenReturn(list);
+        when(repository.findByName(NAME)).thenReturn(list);
 
         //then
-        List<ProductDTO> resultList = service.getProductByName(name);
+        List<ProductDTO> resultList = service.getProductByName(NAME);
         //convert list of productDTO to list of product
         List<Product> resultProductList = resultList.stream().map(prodDTO -> mapper.toEntity(prodDTO, Product.class)).collect(Collectors.toList());
 
         //test the method is calling
-        verify(repository).findByName(name);
+        verify(repository).findByName(NAME);
 
         //checking correct data
         assertEquals(1, resultList.size());
@@ -146,14 +146,14 @@ public class ProductServiceTest {
     public void testUpdatePrice() {
         //given
         Product updateProduct = new Product();
-        updateProduct.setId(id);
+        updateProduct.setId(ID);
         updateProduct.setPrice(101);
-        updateProduct.setName(name);
-        updateProduct.setDescription(description);
+        updateProduct.setName(NAME);
+        updateProduct.setDescription(DESCRIPTION);
 
         //when
         when(repository.save(updateProduct)).thenReturn(product);
-        when(repository.findById(id)).thenReturn(product);
+        when(repository.findById(ID)).thenReturn(product);
 
         //then
         ProductDTO resultUpdateProduct = service.updatePrice(mapper.toDTO(updateProduct, ProductDTO.class));
