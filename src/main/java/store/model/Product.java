@@ -1,8 +1,10 @@
 package store.model;
 
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -18,4 +20,7 @@ public class Product {
     private double price;
     @Column(name = "description")
     private String description;
+    @ElementCollection
+    @CollectionTable(name="categories")
+    private List<String> categories;
 }
