@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
-    private EntityMapper<Product, ProductDTO> mapper = new EntityMapper<>();
+    private EntityMapper<Product,ProductDTO> mapper = (EntityMapper<Product,ProductDTO>)EntityMapper.getInstance();
 
     @Autowired
     ProductServiceImpl(ProductRepository productRepository) {

@@ -143,6 +143,3 @@ Set :
     Database - [your_database_name]
 
  click - `Test Connection`.
-
-
-

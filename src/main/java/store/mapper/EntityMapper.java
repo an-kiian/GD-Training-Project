@@ -10,8 +10,12 @@ import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 public class EntityMapper<Entity, DTO> {
     private ModelMapper modelMapper;
 
-    public EntityMapper() {
+    private EntityMapper() {
         this.modelMapper = getModelMapperInstance();
+    }
+
+    public static EntityMapper<?, ?> getInstance() {
+        return EntityMapperHolder.HOLDER_INSTANCE;
     }
 
     public DTO toDTO(Entity from, Class toClass) {
@@ -30,5 +34,9 @@ public class EntityMapper<Entity, DTO> {
                 .setSkipNullEnabled(true)
                 .setFieldAccessLevel(PRIVATE);
         return mapper;
+    }
+
+    public static class EntityMapperHolder {
+        public static final EntityMapper<?, ?> HOLDER_INSTANCE = new EntityMapper<>();
     }
 }
