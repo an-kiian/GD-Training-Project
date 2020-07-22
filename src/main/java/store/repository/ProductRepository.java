@@ -11,8 +11,8 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Long> {
 
-    @Query(value = "select * from product p where ?1 MEMBER OF p.categories", nativeQuery = true)
-    List<Product> findByCategory(String category);
+    @Query(value="select p from product p where :category MEMBER OF p.categories")
+    List<Product> findByCategory(@Param("category")String category);
 
     Product findById(Long id);
 }
