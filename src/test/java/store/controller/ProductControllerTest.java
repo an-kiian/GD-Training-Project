@@ -31,41 +31,6 @@ public class ProductControllerTest {
         mockProduct.setId(1L);
     }
 
-    @Test
-    public void testGetAllProducts() {
-        //given
-        List<ProductDTO> productList = new ArrayList<>();
-        productList.add(mockProduct);
-        productList.add(new ProductDTO("Test Product 2", 200, "Test Description 2"));
-        //when
-        Mockito.when(productService.getAllProducts()).thenReturn(productList);
-        //then
-        List<ProductDTO> resultList = productController.getAllProducts();
-        assertEquals(resultList.size(), 2);
-        assertEquals(resultList, productList);
-    }
-
-    @Test
-    public void testGetProductById() {
-        //when
-        Mockito.when(productService.getProductById(Mockito.anyLong())).thenReturn(mockProduct);
-        //then
-        ProductDTO resultProduct = productController.getProductById(1L);
-        assertEquals(mockProduct, resultProduct);
-    }
-
-    @Test
-    public void testGetProductByName() {
-        //given
-        List<ProductDTO> productList = new ArrayList<>();
-        productList.add(mockProduct);
-        //when
-        Mockito.when(productService.getProductByName(Mockito.anyString())).thenReturn(productList);
-        //then
-        List<ProductDTO> resultList = productController.getProductByName("Test Product");
-        assertEquals(resultList.size(), 1);
-        assertEquals(resultList.get(0), mockProduct);
-    }
 
     @Test
     public void testAddProduct() {

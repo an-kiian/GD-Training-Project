@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import store.dto.ProductDTO;
 import store.service.ProductService;
 
+import javax.ws.rs.QueryParam;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -17,19 +20,10 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("store/product/{id}")
-    public ProductDTO getProductById(@PathVariable Long id) {
-        return productService.getProductById(id);
-    }
-
     @GetMapping("store/product")
-    public List<ProductDTO> getAllProducts() {
-        return productService.getAllProducts();
-    }
-
-    @GetMapping("/store/product/name/{name}")
-    public List<ProductDTO> getProductByName(@PathVariable String name) {
-        return productService.getProductByName(name);
+    @ResponseBody
+    public List<ProductDTO> getProducts(@QueryParam("categories") String[] categories) {
+        return productService.getProducts(categories);
     }
 
     @PutMapping("/store/product/price")

@@ -25,21 +25,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO getProductById(Long id) {
-        return mapper.toDTO(productRepository.findById(id), ProductDTO.class);
-    }
-
-    @Override
-    public List<ProductDTO> getAllProducts() {
+    public List<ProductDTO> getProducts(String[] categories) {
         List<ProductDTO> productsDTO = new ArrayList<>();
-        productRepository.findAll().forEach(product -> productsDTO.add(mapper.toDTO(product, ProductDTO.class)));
-        return productsDTO;
-    }
-
-    @Override
-    public List<ProductDTO> getProductByName(String nameProduct) {
-        List<ProductDTO> productsDTO = new ArrayList<>();
-        productRepository.findByName(nameProduct).forEach(product -> productsDTO.add(mapper.toDTO(product, ProductDTO.class)));
+        productRepository.findByCategory(Arrays.asList(categories)).forEach(product -> productsDTO.add(mapper.toDTO(product, ProductDTO.class)));
         return productsDTO;
     }
 
@@ -54,10 +42,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO addProduct(ProductDTO productDTO) {
-        List<String>allCategories= Arrays.asList(this.allCategories);
+        List<String> allCategories = Arrays.asList(this.allCategories);
         boolean result = productDTO.getCategories().stream().anyMatch(category -> !allCategories.contains(category));
-         if (result)
-           return null;
+        if (result)
+            return null;
         Product product = mapper.toEntity(productDTO, Product.class);
         return mapper.toDTO(productRepository.save(product), ProductDTO.class);
     }
