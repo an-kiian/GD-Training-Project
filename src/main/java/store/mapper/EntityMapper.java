@@ -8,6 +8,7 @@ import java.util.Objects;
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 public class EntityMapper<Entity, DTO> {
+
     private ModelMapper modelMapper;
 
     private EntityMapper() {
