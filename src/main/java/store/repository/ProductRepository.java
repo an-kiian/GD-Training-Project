@@ -10,10 +10,9 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Long> {
-    List<Product> findByName(String name);
 
-    @Query(value = "select * from Product p where p.categories = :categories", nativeQuery = true)
-    List<Product> findByCategory(@Param("categories") List<String> categories);
+    @Query(value = "select * from product p where ?1 MEMBER OF p.categories", nativeQuery = true)
+    List<Product> findByCategory(String category);
 
     Product findById(Long id);
 }

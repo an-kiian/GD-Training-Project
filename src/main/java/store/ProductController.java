@@ -22,8 +22,8 @@ public class ProductController {
 
     @GetMapping("store/product")
     @ResponseBody
-    public List<ProductDTO> getProducts(@QueryParam("categories") String[] categories) {
-        return productService.getProducts(categories);
+    public List<ProductDTO> getProducts(@QueryParam("categories") String category) {
+        return productService.getProducts(category);
     }
 
     @PutMapping("/store/product/price")
