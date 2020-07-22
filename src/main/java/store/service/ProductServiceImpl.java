@@ -8,10 +8,6 @@ import store.repository.ProductRepository;
 import store.model.Product;
 import store.dto.ProductDTO;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,9 +27,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDTO> getProducts(List<String> category) {
         List<ProductDTO> productsDTO = new ArrayList<>();
-        productRepository.findByCategory(category).forEach(product -> productsDTO.add(mapper.toDTO(product, ProductDTO.class)));
+        productRepository.findByCategory(category, category.size()).forEach(product -> productsDTO.add(mapper.toDTO(product, ProductDTO.class)));
         return productsDTO;
     }
+
     @Override
     public ProductDTO updatePrice(ProductDTO productDTO) {
         Product productFromDB = productRepository.findById(productDTO.getId());
