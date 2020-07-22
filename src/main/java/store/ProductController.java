@@ -21,11 +21,9 @@ public class ProductController {
     }
 
     @GetMapping("store/product")
-    @ResponseBody
-    public List<ProductDTO> getProducts(@QueryParam("categories") String category) {
+    public List<ProductDTO> getProducts(@RequestParam("categories") List<String> category) {
         return productService.getProducts(category);
     }
-
     @PutMapping("/store/product/price")
     @ResponseStatus(HttpStatus.OK)
     public ProductDTO updatePrice(@RequestBody ProductDTO productDTO) {

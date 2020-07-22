@@ -29,12 +29,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> getProducts(String category) {
+    public List<ProductDTO> getProducts(List<String> category) {
         List<ProductDTO> productsDTO = new ArrayList<>();
         productRepository.findByCategory(category).forEach(product -> productsDTO.add(mapper.toDTO(product, ProductDTO.class)));
         return productsDTO;
     }
-
     @Override
     public ProductDTO updatePrice(ProductDTO productDTO) {
         Product productFromDB = productRepository.findById(productDTO.getId());
