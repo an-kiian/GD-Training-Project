@@ -10,6 +10,7 @@ import store.dto.ProductDTO;
 import store.mapper.EntityMapper;
 import store.model.Product;
 import store.repository.ProductRepository;
+import store.service.impl.ProductServiceImpl;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -53,7 +54,7 @@ public class ProductServiceTest {
         list = Collections.singletonList(product);
 
         //given productDTO from mapper
-        mapper = new EntityMapper();
+        mapper = (EntityMapper<Product, ProductDTO>) EntityMapper.getInstance();
         productDTOFromMapper = mapper.toDTO(product, ProductDTO.class);
     }
 
