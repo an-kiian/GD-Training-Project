@@ -9,9 +9,11 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import store.ProductController;
 import store.dto.ProductDTO;
+import store.model.Product;
 import store.service.ProductService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -28,9 +30,21 @@ public class ProductControllerTest {
     @Before()
     public void setUp() {
         mockProduct = new ProductDTO("Test Product", 100, "Test Description");
+        mockProduct.setCategories(Arrays.asList(new String[]{"Category 1", "Category 2"}));
         mockProduct.setId(1L);
     }
 
+    @Test
+    public void testGetProducts() {
+        //given
+        List<ProductDTO> products = new ArrayList<>();
+        products.add(mockProduct);
+        //when
+        Mockito.when(productService.getProducts(Mockito.anyList())).thenReturn(products);
+        //then
+        List<ProductDTO> resultList = productController.getProducts(Arrays.asList(new String[]{"Category 1"}));
+        assertEquals(resultList, products);
+    }
 
     @Test
     public void testAddProduct() {
@@ -43,14 +57,10 @@ public class ProductControllerTest {
 
     @Test
     public void testUpdatePrice() {
-        //given
-        ProductDTO updateProduct = new ProductDTO();
-        updateProduct.setId(1L);
-        updateProduct.setPrice(100L);
         //when
         Mockito.when(productService.updatePrice(Mockito.any(ProductDTO.class))).thenReturn(mockProduct);
         //then
-        ProductDTO resultProduct = productController.updatePrice(updateProduct);
+        ProductDTO resultProduct = productController.updatePrice(mockProduct);
         assertEquals(resultProduct, mockProduct);
     }
 }
