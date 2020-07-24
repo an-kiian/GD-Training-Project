@@ -24,13 +24,13 @@ public class ProductControllerTest {
     private ProductService productService;
     @InjectMocks
     private ProductController productController;
-    private static final ProductDTO mockProduct=new ProductDTO("Test Product", 100, "Test Description");
+    private final ProductDTO PRODUCT = new ProductDTO("Test Product", 100, "Test Description");
 
     @Test
     public void testGetProducts() {
         //given
         List<ProductDTO> products = new ArrayList<>();
-        products.add(mockProduct);
+        products.add(PRODUCT);
         //when
         Mockito.when(productService.getProducts(Mockito.anyList())).thenReturn(products);
         //then
@@ -41,18 +41,18 @@ public class ProductControllerTest {
     @Test
     public void testAddProduct() {
         //when
-        Mockito.when(productService.addProduct(Mockito.any(ProductDTO.class))).thenReturn(mockProduct);
+        Mockito.when(productService.addProduct(Mockito.any(ProductDTO.class))).thenReturn(PRODUCT);
         //then
-        ProductDTO resultProduct = productController.addProduct(mockProduct);
-        assertEquals(resultProduct, mockProduct);
+        ProductDTO resultProduct = productController.addProduct(PRODUCT);
+        assertEquals(resultProduct, PRODUCT);
     }
 
     @Test
     public void testUpdatePrice() {
         //when
-        Mockito.when(productService.updatePrice(Mockito.any(ProductDTO.class))).thenReturn(mockProduct);
+        Mockito.when(productService.updatePrice(Mockito.any(ProductDTO.class))).thenReturn(PRODUCT);
         //then
-        ProductDTO resultProduct = productController.updatePrice(mockProduct);
-        assertEquals(resultProduct, mockProduct);
+        ProductDTO resultProduct = productController.updatePrice(PRODUCT);
+        assertEquals(resultProduct, PRODUCT);
     }
 }

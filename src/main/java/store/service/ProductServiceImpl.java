@@ -28,8 +28,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDTO> getProducts(List<String> category) {
 
-        List<Product> products=productRepository.findByCategory(category, category.size());
-        List<ProductDTO> productsDTO =products.stream().map(product ->mapper.toDTO(product, ProductDTO.class)).collect(Collectors.toList());
+        List<Product> products = productRepository.findByCategory(category, category.size());
+        List<ProductDTO> productsDTO = products.stream().map(product -> mapper.toDTO(product, ProductDTO.class)).collect(Collectors.toList());
         return productsDTO;
     }
 
@@ -45,8 +45,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO addProduct(ProductDTO productDTO) {
         List<String> allCategories = Arrays.asList(this.allCategories);
-        boolean result = allCategories.contains(productDTO.getCategories());
-        if (result)
+        boolean result = allCategories.containsAll(productDTO.getCategories());
+        if (!result)
             return null;
         Product product = mapper.toEntity(productDTO, Product.class);
         return mapper.toDTO(productRepository.save(product), ProductDTO.class);
