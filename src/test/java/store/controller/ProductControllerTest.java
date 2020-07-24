@@ -9,7 +9,6 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import store.ProductController;
 import store.dto.ProductDTO;
-import store.model.Product;
 import store.service.ProductService;
 
 import java.util.ArrayList;
@@ -25,14 +24,7 @@ public class ProductControllerTest {
     private ProductService productService;
     @InjectMocks
     private ProductController productController;
-    private ProductDTO mockProduct;
-
-    @Before()
-    public void setUp() {
-        mockProduct = new ProductDTO("Test Product", 100, "Test Description");
-        mockProduct.setCategories(Arrays.asList(new String[]{"Category 1", "Category 2"}));
-        mockProduct.setId(1L);
-    }
+    private static final ProductDTO mockProduct=new ProductDTO("Test Product", 100, "Test Description");
 
     @Test
     public void testGetProducts() {
