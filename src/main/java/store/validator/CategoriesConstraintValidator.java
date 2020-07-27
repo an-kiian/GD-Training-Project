@@ -16,7 +16,7 @@ public class CategoriesConstraintValidator implements ConstraintValidator<Catego
     }
 
     public boolean isValid(List<String> categories, ConstraintValidatorContext constraintValidatorContext) {
-        if (Arrays.asList(allCategories).containsAll(categories))
+        if ((categories == null) || Arrays.asList(allCategories).containsAll(categories))
             return true;
         return false;
     }
