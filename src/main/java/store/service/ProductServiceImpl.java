@@ -1,15 +1,12 @@
 package store.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import store.mapper.EntityMapper;
 import store.repository.ProductRepository;
 import store.model.Product;
 import store.dto.ProductDTO;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,8 +14,6 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     private EntityMapper<Product, ProductDTO> mapper = (EntityMapper<Product, ProductDTO>) EntityMapper.getInstance();
-    @Value("${categories.list}")
-    private String[] allCategories;
 
     @Autowired
     ProductServiceImpl(ProductRepository productRepository) {
@@ -44,10 +39,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO addProduct(ProductDTO productDTO) {
-        List<String> allCategories = Arrays.asList(this.allCategories);
-        boolean result = allCategories.containsAll(productDTO.getCategories());
-        if (!result)
-            return null;
         Product product = mapper.toEntity(productDTO, Product.class);
         return mapper.toDTO(productRepository.save(product), ProductDTO.class);
     }
