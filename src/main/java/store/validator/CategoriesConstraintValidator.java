@@ -1,5 +1,6 @@
 package store.validator;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.validation.ConstraintValidator;
@@ -16,9 +17,7 @@ public class CategoriesConstraintValidator implements ConstraintValidator<Catego
     }
 
     public boolean isValid(List<String> categories, ConstraintValidatorContext constraintValidatorContext) {
-        if ((categories == null) || Arrays.asList(allCategories).containsAll(categories))
-            return true;
-        return false;
+        return CollectionUtils.isSubCollection(categories, Arrays.asList(allCategories));
     }
 
 }

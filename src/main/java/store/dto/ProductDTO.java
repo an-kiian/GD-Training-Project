@@ -8,10 +8,10 @@ import store.validator.CategoriesConstraint;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Positive;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 public class ProductDTO {
     private Long id;
     private String name;
@@ -20,6 +20,10 @@ public class ProductDTO {
     private String description;
     @CategoriesConstraint
     private List<String> categories;
+
+    public ProductDTO() {
+        categories = new ArrayList<>();
+    }
 
     public ProductDTO(String name, double price, String description) {
         this.name = name;
