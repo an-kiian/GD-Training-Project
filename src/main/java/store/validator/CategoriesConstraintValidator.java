@@ -20,4 +20,5 @@ public class CategoriesConstraintValidator implements ConstraintValidator<Catego
         return (categories==null)||CollectionUtils.isSubCollection(categories, Arrays.asList(allCategories));
     }
 
+
 }
