@@ -31,7 +31,7 @@ public class Sale {
     private LocalDateTime dateOff;
 
     @Column(name = "percent")
-    private Double percent;
+    private double percent;
 
     @ElementCollection
     @Column(name = "categories")

@@ -27,7 +27,7 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public SaleDTO getById(Long id) {
-        return entityMapper.toDTO(saleRepository.findOne(id), SaleDTO.class);
+        return entityMapper.toDTO(saleRepository.findById(id), SaleDTO.class);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public List<SaleDTO> getByDates(LocalDateTime startDate, LocalDateTime endDate) {
         List<SaleDTO> saleDTOList = new ArrayList<>();
-        saleRepository.findByDateOffAfterAndAndDateOnBefore(startDate, endDate).forEach(sale -> saleDTOList.add(entityMapper.toDTO(sale, SaleDTO.class)));
+        saleRepository.findByDateOffAfterAndDateOnBefore(startDate, endDate).forEach(sale -> saleDTOList.add(entityMapper.toDTO(sale, SaleDTO.class)));
         return saleDTOList;
     }
 
@@ -59,8 +59,8 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public SaleDTO update(SaleDTO saleDTO) {
-        Sale saleFromDB = saleRepository.findOne(saleDTO.getId());
-        if (saleDTO == null) {
+        Sale saleFromDB = saleRepository.findById(saleDTO.getId());
+        if (saleFromDB == null) {
             return null;
         }
         saleFromDB.setDateOn(saleDTO.getDateOn());

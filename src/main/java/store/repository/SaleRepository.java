@@ -10,7 +10,9 @@ import java.util.List;
 
 public interface SaleRepository extends CrudRepository<Sale, Long> {
 
-    List<Sale> findByDateOffAfterAndAndDateOnBefore(LocalDateTime dateOn, LocalDateTime dateOff);
+    Sale findById(Long id);
+
+    List<Sale> findByDateOffAfterAndDateOnBefore(LocalDateTime dateOn, LocalDateTime dateOff);
 
     @Query(value = "select s from Sale s join s.categories cat where cat in :categories group by s.id")
     List<Sale> findByCategories(@Param("categories") List<String> categories);
