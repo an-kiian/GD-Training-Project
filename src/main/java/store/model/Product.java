@@ -3,6 +3,7 @@ package store.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -18,4 +19,7 @@ public class Product {
     private double price;
     @Column(name = "description")
     private String description;
+    @ElementCollection
+    @Column(name = "categories")
+    private List<String> categories;
 }

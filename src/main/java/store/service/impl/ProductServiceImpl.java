@@ -8,13 +8,13 @@ import store.model.Product;
 import store.dto.ProductDTO;
 import store.service.ProductService;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
-    private EntityMapper<Product,ProductDTO> mapper = (EntityMapper<Product,ProductDTO>)EntityMapper.getInstance();
+    private EntityMapper<Product, ProductDTO> mapper = (EntityMapper<Product, ProductDTO>) EntityMapper.getInstance();
 
     @Autowired
     ProductServiceImpl(ProductRepository productRepository) {
@@ -22,21 +22,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO getProductById(Long id) {
-        return mapper.toDTO(productRepository.findById(id), ProductDTO.class);
-    }
+    public List<ProductDTO> getProducts(List<String> category) {
 
-    @Override
-    public List<ProductDTO> getAllProducts() {
-        List<ProductDTO> productsDTO = new ArrayList<>();
-        productRepository.findAll().forEach(product -> productsDTO.add(mapper.toDTO(product, ProductDTO.class)));
-        return productsDTO;
-    }
-
-    @Override
-    public List<ProductDTO> getProductByName(String nameProduct) {
-        List<ProductDTO> productsDTO = new ArrayList<>();
-        productRepository.findByName(nameProduct).forEach(product -> productsDTO.add(mapper.toDTO(product, ProductDTO.class)));
+        List<Product> products = productRepository.findByCategory(category, category.size());
+        List<ProductDTO> productsDTO = products.stream().map(product -> mapper.toDTO(product, ProductDTO.class)).collect(Collectors.toList());
         return productsDTO;
     }
 
