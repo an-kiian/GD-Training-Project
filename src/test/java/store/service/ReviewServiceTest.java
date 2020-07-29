@@ -31,15 +31,19 @@ public class ReviewServiceTest {
     @Mock
     private ProductRepository productRepository;
     private EntityMapper<Review, ReviewDTO> mapper = (EntityMapper<Review, ReviewDTO>) EntityMapper.getInstance();
-    private ReviewDTO REVIEW_DTO = new ReviewDTO(1L, 5, "Test Review");
-    private Review REVIEW = new Review();
+    private static final double RATING=5;
+    private static final Long ID=1L;
+    private static final String TEXT="Test Review";
+    private ReviewDTO reviewDTO ;
+    private Review review;
 
     @Before
     public void setUp() {
-        REVIEW.setId(1L);
-        REVIEW.setText("Test Review");
-        REVIEW.setRating(5);
-        REVIEW.setProduct(new Product());
+        reviewDTO= new ReviewDTO(ID,RATING,TEXT);
+        review.setId(ID);
+        review.setText(TEXT);
+        review.setRating(RATING);
+        review.setProduct(new Product());
     }
 
 
@@ -47,12 +51,12 @@ public class ReviewServiceTest {
     public void testGetReviews() {
         //given
         List<Review> reviews = new ArrayList<>();
-        reviews.add(REVIEW);
+        reviews.add(review);
         //when
         Mockito.when(reviewRepository.findByProductId(Mockito.anyLong())).thenReturn(reviews);
         //then
-        List<ReviewDTO> resultReviewDTO = service.getReviews(1L);
-        verify(reviewRepository).findByProductId(1L);
+        List<ReviewDTO> resultReviewDTO = service.getReviews(ID);
+        verify(reviewRepository).findByProductId(ID);
         assertEquals(resultReviewDTO, reviews.stream().map(review -> mapper.toDTO(review, ReviewDTO.class)).collect(Collectors.toList()));
     }
 
@@ -60,10 +64,10 @@ public class ReviewServiceTest {
     public void testAdd() {
         //when
         Mockito.when(productRepository.findById(Mockito.anyLong())).thenReturn(new Product());
-        Mockito.when(reviewRepository.save(Mockito.any(Review.class))).thenReturn(REVIEW);
+        Mockito.when(reviewRepository.save(Mockito.any(Review.class))).thenReturn(review);
         //then
-        ReviewDTO resultReviewDTO = service.addReview(REVIEW_DTO);
-        assertEquals(resultReviewDTO, mapper.toDTO(REVIEW, ReviewDTO.class));
+        ReviewDTO resultReviewDTO = service.addReview(reviewDTO);
+        assertEquals(resultReviewDTO, mapper.toDTO(review, ReviewDTO.class));
     }
 
     @Test
@@ -72,7 +76,7 @@ public class ReviewServiceTest {
         Mockito.when(productRepository.findById(Mockito.anyLong())).thenReturn(new Product());
         Mockito.when(reviewRepository.save(Mockito.any(Review.class))).thenReturn(null);
         //then
-        ReviewDTO resultReviewDTO = service.addReview(REVIEW_DTO);
+        ReviewDTO resultReviewDTO = service.addReview(reviewDTO);
         assertNull(resultReviewDTO);
     }
 }

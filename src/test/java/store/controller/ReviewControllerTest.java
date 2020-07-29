@@ -20,13 +20,13 @@ public class ReviewControllerTest {
     private ReviewService reviewService;
     @InjectMocks
     private ReviewController reviewController;
-    private ReviewDTO REVIEW = new ReviewDTO(1L, 5, "Test Review");
+    private ReviewDTO review = new ReviewDTO(1L, 5, "Test Review");
 
     @Test
     public void testGetProducts() {
         //given
         List<ReviewDTO> reviews = new ArrayList<>();
-        reviews.add(REVIEW);
+        reviews.add(review);
         //when
         Mockito.when(reviewService.getReviews(Mockito.anyLong())).thenReturn(reviews);
         //then
@@ -37,10 +37,10 @@ public class ReviewControllerTest {
     @Test
     public void testAddProduct() {
         //when
-        Mockito.when(reviewService.addReview(Mockito.any(ReviewDTO.class))).thenReturn(REVIEW);
+        Mockito.when(reviewService.addReview(Mockito.any(ReviewDTO.class))).thenReturn(review);
         //then
-        ReviewDTO resultReview = reviewController.addReview(REVIEW);
-        assertEquals(resultReview, REVIEW);
+        ReviewDTO resultReview = reviewController.addReview(review);
+        assertEquals(resultReview, review);
     }
 
 }
