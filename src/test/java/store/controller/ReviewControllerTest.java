@@ -20,7 +20,7 @@ public class ReviewControllerTest {
     private ReviewService reviewService;
     @InjectMocks
     private ReviewController reviewController;
-    private static final ReviewDTO REVIEW = new ReviewDTO(1L, 5, "Test Review");
+    private ReviewDTO REVIEW = new ReviewDTO(1L, 5, "Test Review");
 
     @Test
     public void testGetProducts() {
