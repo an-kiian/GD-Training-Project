@@ -22,9 +22,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> getProducts(List<String> category) {
-
+    public List<ProductDTO> getProducts(List<String> category, boolean isReview) {
         List<Product> products = productRepository.findByCategory(category, category.size());
+        if (!isReview)
+            products.forEach((u) -> u.setReviews(null));
         List<ProductDTO> productsDTO = products.stream().map(product -> mapper.toDTO(product, ProductDTO.class)).collect(Collectors.toList());
         return productsDTO;
     }

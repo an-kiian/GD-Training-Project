@@ -27,5 +27,6 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "product")
+
     private Set<Review> reviews = new HashSet<>();
 }

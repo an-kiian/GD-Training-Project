@@ -8,6 +8,7 @@ import store.dto.ProductDTO;
 import store.service.ProductService;
 
 import javax.validation.Valid;
+import javax.ws.rs.QueryParam;
 import java.util.List;
 
 @RestController
@@ -21,8 +22,8 @@ public class ProductController {
     }
 
     @GetMapping("store/product")
-    public List<ProductDTO> getProducts(@RequestParam("categories") List<String> categories) {
-        return productService.getProducts(categories);
+    public List<ProductDTO> getProducts(@RequestParam("categories") List<String> categories, @QueryParam("showReview") boolean showReview) {
+        return productService.getProducts(categories, showReview);
     }
 
     @PutMapping("/store/product/price")

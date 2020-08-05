@@ -13,7 +13,7 @@ public class CategoryController {
     List<String> categories;
 
     @GetMapping("/store/category")
-    public List<String> getAll(){
+    public List<String> getAll() {
         return categories;
     }
 }

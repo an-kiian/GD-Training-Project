@@ -31,15 +31,15 @@ public class ReviewServiceTest {
     @Mock
     private ProductRepository productRepository;
     private EntityMapper<Review, ReviewDTO> mapper = (EntityMapper<Review, ReviewDTO>) EntityMapper.getInstance();
-    private static final double RATING=5;
-    private static final Long ID=1L;
-    private static final String TEXT="Test Review";
-    private ReviewDTO reviewDTO ;
+    private static final double RATING = 5;
+    private static final Long ID = 1L;
+    private static final String TEXT = "Test Review";
+    private ReviewDTO reviewDto;
     private Review review;
 
     @Before
     public void setUp() {
-        reviewDTO= new ReviewDTO(ID,RATING,TEXT);
+        reviewDto= new ReviewDTO(ID, RATING, TEXT);
         review.setId(ID);
         review.setText(TEXT);
         review.setRating(RATING);
@@ -66,7 +66,7 @@ public class ReviewServiceTest {
         Mockito.when(productRepository.findById(Mockito.anyLong())).thenReturn(new Product());
         Mockito.when(reviewRepository.save(Mockito.any(Review.class))).thenReturn(review);
         //then
-        ReviewDTO resultReviewDTO = service.addReview(reviewDTO);
+        ReviewDTO resultReviewDTO = service.addReview(reviewDto);
         assertEquals(resultReviewDTO, mapper.toDTO(review, ReviewDTO.class));
     }
 
@@ -76,7 +76,7 @@ public class ReviewServiceTest {
         Mockito.when(productRepository.findById(Mockito.anyLong())).thenReturn(new Product());
         Mockito.when(reviewRepository.save(Mockito.any(Review.class))).thenReturn(null);
         //then
-        ReviewDTO resultReviewDTO = service.addReview(reviewDTO);
+        ReviewDTO resultReviewDTO = service.addReview(reviewDto);
         assertNull(resultReviewDTO);
     }
 }

@@ -1,11 +1,13 @@
 package store.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Range;
+import store.model.Review;
 import store.validator.CategoriesConstraint;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.constraints.Min;
 
@@ -20,6 +22,8 @@ public class ProductDTO {
     private String description;
     @CategoriesConstraint
     private List<String> categories;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Set<Review> reviews;
 
     public ProductDTO(String name, double price, String description) {
         this.name = name;

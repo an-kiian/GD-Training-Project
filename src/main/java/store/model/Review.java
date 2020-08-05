@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -23,4 +24,19 @@ public class Review {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Product product;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Review that = (Review) o;
+        return (Objects.equals(text, that.text) || Objects.equals(rating, that.rating) || Objects.equals(id, that.id));
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(text) + Objects.hash(rating) + Objects.hash(id);
+        return result;
+    }
 }

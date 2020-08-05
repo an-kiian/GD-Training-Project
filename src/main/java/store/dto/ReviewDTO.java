@@ -1,5 +1,6 @@
 package store.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
@@ -18,6 +19,7 @@ public class ReviewDTO {
     @Range(min = 0, max = 10, message = "Rating value must be between 0 to 10")
     private double rating;
     @Min(value = 1, message = "id_product must be higher or equal 1")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long id_product;
 
     public ReviewDTO(Long id_product, double rating, String text) {

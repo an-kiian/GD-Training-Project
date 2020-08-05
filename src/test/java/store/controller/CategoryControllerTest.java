@@ -21,7 +21,7 @@ public class CategoryControllerTest {
     private List<String> categories;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         //given
         categories = new ArrayList<>();
         categories.add("First Category");
@@ -31,7 +31,7 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void testGetAll(){
+    public void testGetAll() {
         //then
         List<String> resultList = categoryController.getAll();
 
