@@ -26,14 +26,14 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewDTO> getReviews(Long id_product) {
-        List<Review> reviews = reviewRepository.findByProductId(id_product);
+    public List<ReviewDTO> getReviews(Long productId) {
+        List<Review> reviews = reviewRepository.findByProductId(productId);
         return reviews.stream().map(review -> mapper.toDTO(review, ReviewDTO.class)).collect(Collectors.toList());
     }
 
     @Override
     public ReviewDTO addReview(ReviewDTO reviewDTO) {
-        Product product = productRepository.findById(reviewDTO.getId_product());
+        Product product = productRepository.findById(reviewDTO.getProductId());
         if (product == null)
             return null;
         Review review = mapper.toEntity(reviewDTO, Review.class);

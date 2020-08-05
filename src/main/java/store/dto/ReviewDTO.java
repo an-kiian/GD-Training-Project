@@ -20,10 +20,10 @@ public class ReviewDTO {
     private double rating;
     @Min(value = 1, message = "id_product must be higher or equal 1")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Long id_product;
+    private Long productId;
 
-    public ReviewDTO(Long id_product, double rating, String text) {
-        this.id_product = id_product;
+    public ReviewDTO(Long productId, double rating, String text) {
+        this.productId = productId;
         this.rating = rating;
         this.text = text;
     }

@@ -8,5 +8,5 @@ public interface ReviewService {
 
     ReviewDTO addReview(ReviewDTO reviewDTO);
 
-    List<ReviewDTO> getReviews(Long id_product);
+    List<ReviewDTO> getReviews(Long idProduct);
 }
