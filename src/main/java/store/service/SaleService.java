@@ -4,16 +4,11 @@ import store.dto.SaleDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface SaleService {
 
-    SaleDTO getById(Long id);
-
-    List<SaleDTO> getByCategories(List<String> categories);
-
-    List<SaleDTO> getByDates(LocalDateTime startDate, LocalDateTime endDate);
-
-    List<SaleDTO> getAll();
+    List<SaleDTO> get(Long id, LocalDateTime dateOn, LocalDateTime dateOff, List<String> categories);
 
     SaleDTO add(SaleDTO saleDTO);
 

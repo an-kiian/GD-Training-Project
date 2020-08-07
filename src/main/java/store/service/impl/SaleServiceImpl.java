@@ -9,8 +9,8 @@ import store.repository.SaleRepository;
 import store.service.SaleService;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SaleServiceImpl implements SaleService {
@@ -24,31 +24,16 @@ public class SaleServiceImpl implements SaleService {
         this.saleRepository = saleRepository;
     }
 
-
     @Override
-    public SaleDTO getById(Long id) {
-        return entityMapper.toDTO(saleRepository.findById(id), SaleDTO.class);
-    }
+    public List<SaleDTO> get(Long id, LocalDateTime dateOn, LocalDateTime dateOff, List<String> categories) {
 
-    @Override
-    public List<SaleDTO> getByCategories(List<String> categories) {
-        List<SaleDTO> saleDTOList = new ArrayList<>();
-        saleRepository.findByCategories(categories).forEach(sale -> saleDTOList.add(entityMapper.toDTO(sale, SaleDTO.class)));
-        return saleDTOList;
-    }
-
-    @Override
-    public List<SaleDTO> getByDates(LocalDateTime startDate, LocalDateTime endDate) {
-        List<SaleDTO> saleDTOList = new ArrayList<>();
-        saleRepository.findByDateOffAfterAndDateOnBefore(startDate, endDate).forEach(sale -> saleDTOList.add(entityMapper.toDTO(sale, SaleDTO.class)));
-        return saleDTOList;
-    }
-
-    @Override
-    public List<SaleDTO> getAll() {
-        List<SaleDTO> saleDTOList = new ArrayList<>();
-        saleRepository.findAll().forEach(sale -> saleDTOList.add(entityMapper.toDTO(sale, SaleDTO.class)));
-        return saleDTOList;
+        if(id == null & dateOn == null & dateOff == null & categories == null){
+            List<SaleDTO> saleDTOList = new ArrayList<>();
+            saleRepository.findAll().forEach(sale -> saleDTOList.add(entityMapper.toDTO(sale, SaleDTO.class)));
+            return saleDTOList;
+        } else {
+            return saleRepository.findByIdOrDateOnAfterOrDateOffBeforeOrCategories(id ,dateOn, dateOff, categories).stream().map(sale -> entityMapper.toDTO(sale, SaleDTO.class)).collect(Collectors.toList());
+        }
     }
 
     @Override
