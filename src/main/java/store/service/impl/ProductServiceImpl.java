@@ -8,6 +8,7 @@ import store.model.Product;
 import store.dto.ProductDTO;
 import store.service.ProductService;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,8 +23,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> getProducts(List<String> category, boolean isReview) {
-        List<Product> products = productRepository.findByCategory(category, category.size());
+    public List<ProductDTO> getProducts(String[] category, boolean isReview) {
+        List<Product> products;
+        if (category != null)
+            products = productRepository.findByCategory(Arrays.asList(category), ((category != null) ? category.length : 0));
+        else
+            products = productRepository.findAll();
         if (!isReview)
             products.forEach((u) -> u.setReviews(null));
         List<ProductDTO> productsDTO = products.stream().map(product -> mapper.toDTO(product, ProductDTO.class)).collect(Collectors.toList());

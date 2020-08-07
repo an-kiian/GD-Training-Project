@@ -10,7 +10,6 @@ import store.dto.ProductDTO;
 import store.service.ProductService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -30,9 +29,9 @@ public class ProductControllerTest {
         List<ProductDTO> products = new ArrayList<>();
         products.add(PRODUCT);
         //when
-        Mockito.when(productService.getProducts(Mockito.anyList(), Mockito.anyBoolean())).thenReturn(products);
+        Mockito.when(productService.getProducts(Mockito.any(), Mockito.anyBoolean())).thenReturn(products);
         //then
-        List<ProductDTO> resultList = productController.getProducts(Arrays.asList(new String[]{"Category 1"}), true);
+        List<ProductDTO> resultList = productController.getProducts(new String[]{"Category 1"}, true);
         assertEquals(resultList, products);
     }
 

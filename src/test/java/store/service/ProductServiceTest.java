@@ -54,9 +54,9 @@ public class ProductServiceTest {
     public void testGetProductsWithoutReviews() {
 
         //when
-        Mockito.when(repository.findByCategory(Mockito.anyList(), Mockito.anyInt())).thenReturn(productList);
+        Mockito.when(repository.findByCategory(Mockito.any(), Mockito.anyInt())).thenReturn(productList);
         //then
-        List<ProductDTO> resultList = service.getProducts(new ArrayList<>(), false);
+        List<ProductDTO> resultList = service.getProducts(new String[]{}, false);
         List<Product> resultProductList = resultList.stream().map(prodDTO -> mapper.toEntity(prodDTO, Product.class)).collect(Collectors.toList());
         assertEquals(productList, resultProductList);
         assertNull(resultList.get(0).getReviews());
@@ -65,11 +65,12 @@ public class ProductServiceTest {
     @Test
     public void testGetProductsWithReviews() {
         //given
+
         productList.get(0).setReviews(new HashSet<Review>());
         //when
-        Mockito.when(repository.findByCategory(Mockito.anyList(), Mockito.anyInt())).thenReturn(productList);
+        Mockito.when(repository.findByCategory(Mockito.any(), Mockito.anyInt())).thenReturn(productList);
         //then
-        List<ProductDTO> resultList = service.getProducts(new ArrayList<>(), true);
+        List<ProductDTO> resultList = service.getProducts(new String[]{"Category 1"}, true);
         List<Product> resultProductList = resultList.stream().map(prodDTO -> mapper.toEntity(prodDTO, Product.class)).collect(Collectors.toList());
         assertEquals(productList, resultProductList);
         assertNotNull(resultList.get(0).getReviews());

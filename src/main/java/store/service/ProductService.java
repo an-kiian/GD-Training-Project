@@ -10,5 +10,5 @@ public interface ProductService {
 
     ProductDTO addProduct(ProductDTO productDTO);
 
-    List<ProductDTO> getProducts(List<String> categories, boolean isReview);
+    List<ProductDTO> getProducts(String[] categories, boolean isReview);
 }

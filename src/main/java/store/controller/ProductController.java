@@ -22,7 +22,7 @@ public class ProductController {
     }
 
     @GetMapping("store/product")
-    public List<ProductDTO> getProducts(@RequestParam("categories") List<String> categories, @QueryParam("showReview") boolean showReview) {
+    public List<ProductDTO> getProducts(@QueryParam("categories") String[] categories, @QueryParam("showReview") boolean showReview) {
         return productService.getProducts(categories, showReview);
     }
 
