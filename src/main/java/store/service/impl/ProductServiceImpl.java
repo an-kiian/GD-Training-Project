@@ -24,11 +24,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> getProducts(String[] category, boolean isReview) {
-        List<Product> products;
-        if (category != null)
-            products = productRepository.findByCategory(Arrays.asList(category), ((category != null) ? category.length : 0));
-        else
-            products = productRepository.findAll();
+        List<Product> products = category == null ? productRepository.findAll() : productRepository.findByCategory(Arrays.asList(category), category.length);
         if (!isReview)
             products.forEach((u) -> u.setReviews(null));
         return products.stream().map(product -> mapper.toDTO(product, ProductDTO.class)).collect(Collectors.toList());
