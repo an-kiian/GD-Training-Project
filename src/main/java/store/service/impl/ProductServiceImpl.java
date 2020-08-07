@@ -31,8 +31,7 @@ public class ProductServiceImpl implements ProductService {
             products = productRepository.findAll();
         if (!isReview)
             products.forEach((u) -> u.setReviews(null));
-        List<ProductDTO> productsDTO = products.stream().map(product -> mapper.toDTO(product, ProductDTO.class)).collect(Collectors.toList());
-        return productsDTO;
+        return products.stream().map(product -> mapper.toDTO(product, ProductDTO.class)).collect(Collectors.toList());
     }
 
     @Override
