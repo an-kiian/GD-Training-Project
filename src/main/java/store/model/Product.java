@@ -28,5 +28,6 @@ public class Product {
             fetch = FetchType.LAZY,
             mappedBy = "product")
 
-    private Set<Review> reviews = new HashSet<>();
+    private Set<Review> reviews;
+
 }

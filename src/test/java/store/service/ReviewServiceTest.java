@@ -40,6 +40,7 @@ public class ReviewServiceTest {
     @Before
     public void setUp() {
         reviewDto = new ReviewDTO(ID, RATING, TEXT);
+        review = new Review();
         review.setId(ID);
         review.setText(TEXT);
         review.setRating(RATING);
