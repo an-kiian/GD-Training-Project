@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @Validated
+@ControllerAdvice
 public class ReviewController {
     private ReviewService reviewService;
 

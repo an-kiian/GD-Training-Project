@@ -52,7 +52,6 @@ public class ProductServiceTest {
 
     @Test
     public void testGetProductsWithoutReviews() {
-
         //when
         Mockito.when(repository.findByCategory(Mockito.any(), Mockito.anyInt())).thenReturn(productList);
         //then
@@ -65,7 +64,6 @@ public class ProductServiceTest {
     @Test
     public void testGetProductsWithReviews() {
         //given
-
         productList.get(0).setReviews(new HashSet<Review>());
         //when
         Mockito.when(repository.findByCategory(Mockito.any(), Mockito.anyInt())).thenReturn(productList);
