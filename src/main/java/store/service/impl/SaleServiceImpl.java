@@ -25,14 +25,15 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public List<SaleDTO> get(Long id, LocalDateTime dateOn, LocalDateTime dateOff, List<String> categories) {
+    public List<SaleDTO> get(Long id, LocalDateTime saleDate, List<String> categories) {
 
-        if(id == null & dateOn == null & dateOff == null & categories == null){
+        if(id == null & saleDate == null & categories == null){
             List<SaleDTO> saleDTOList = new ArrayList<>();
             saleRepository.findAll().forEach(sale -> saleDTOList.add(entityMapper.toDTO(sale, SaleDTO.class)));
             return saleDTOList;
         } else {
-            return saleRepository.findByIdOrDateOnAfterOrDateOffBeforeOrCategories(id ,dateOn, dateOff, categories).stream().map(sale -> entityMapper.toDTO(sale, SaleDTO.class)).collect(Collectors.toList());
+//            return saleRepository.findByIdOrDateOnAfterOrDateOffBefore(id ,saleDate,categories).stream().map(sale -> entityMapper.toDTO(sale, SaleDTO.class)).collect(Collectors.toList());
+            return saleRepository.findByIdOrDateOnAfterOrDateOffBefore(id ,saleDate,categories).stream().map(sale -> entityMapper.toDTO(sale, SaleDTO.class)).collect(Collectors.toList());
         }
     }
 

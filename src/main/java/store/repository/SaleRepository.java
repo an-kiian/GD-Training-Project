@@ -17,7 +17,20 @@ public interface SaleRepository extends CrudRepository<Sale, Long> {
 //    @Query(value = "select s from Sale s join s.categories cat where cat in :categories group by s.id")
 //    List<Sale> findByCategories(@Param("categories") List<String> categories);
 
-    @Query(value = "select s from Sale s join s.categories cat where s.id is not null and s.id = :id or s.dateOn is not null and s.dateOn = :dateOn or s.dateOff is not null and s.dateOff = :dateOff or cat in :categories group by s.id")
-    List<Sale> findByIdOrDateOnAfterOrDateOffBeforeOrCategories(@Param("id") Long id, @Param("dateOn") LocalDateTime dateOn, @Param("dateOff") LocalDateTime dateOff, @Param("categories") List<String> categories);
+    @Query(value = "select s from Sale s " +
+            "join s.categories cat " +
+            "where " +
+            "(:id is null or " +
+            "(:id is not null and s.id = :id)) " +
+            "and " +
+            "((:saleDate) is null or " +
+            "((:saleDate) is not null and (:saleDate) between s.dateOn and s.dateOff)) " +
+            "and " +
+            "((:categories) is null or " +
+            "((:categories) is not null and cat in (:categories)))" +
+            "group by s.id")
+    List<Sale> findByIdOrDateOnAfterOrDateOffBefore(@Param("id") Long id, @Param("saleDate") LocalDateTime saleDate, @Param("categories") List<String> categories);
 
+//    @Query(value = "select s from Sale s join s.categories cat where cat in (:categories) group by s.id having count(s.id) = :categoryCount")
+//    List<Sale> cat(@Param("id") Long id, @Param("saleDate") LocalDateTime saleDate, @Param("categories") List<String> categories, @Param("categoryCount") long categoryCount);
 }
