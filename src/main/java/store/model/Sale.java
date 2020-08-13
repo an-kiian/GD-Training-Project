@@ -2,6 +2,9 @@ package store.model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.querydsl.core.annotations.Config;
+import com.querydsl.core.annotations.QueryEmbedded;
+import com.querydsl.core.annotations.QueryInit;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Config(entityAccessors = true)
 @Entity
 @Table(name = "sale")
 @Data
