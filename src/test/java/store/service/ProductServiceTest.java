@@ -18,6 +18,7 @@ import store.service.impl.ProductServiceImpl;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -29,11 +30,9 @@ public class ProductServiceTest {
     private ProductServiceImpl service;
     @Mock
     private ProductRepository repository;
-
     private Product product;
     private List<Product> productList;
     private EntityMapper<Product, ProductDTO> mapper;
-
     private static final Long ID = 1L;
 
     @Before
@@ -94,6 +93,7 @@ public class ProductServiceTest {
         when(repository.findById(ID)).thenReturn(null);
         // then
         ProductDTO nullProduct = service.updatePrice(mapper.toDTO(product, ProductDTO.class));
+        assertNull(nullProduct);
     }
 
     public void testCheckProductAndUpdateRatingForCorrectId() {
@@ -114,5 +114,6 @@ public class ProductServiceTest {
         when(repository.findById(ID)).thenReturn(null);
         // then
         Product resultProduct = service.checkProductAndUpdateRating(ID, 1.0);
+        assertNull(resultProduct);
     }
 }

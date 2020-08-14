@@ -51,7 +51,6 @@ public class ProductServiceImpl implements ProductService {
         double oldRating = product.getRating();
         rating = oldRating == 0 ? rating : ((oldRating + rating) / 2);
         product.setRating(rating);
-        productRepository.save(product);
-        return product;
+        return productRepository.save(product);
     }
 }

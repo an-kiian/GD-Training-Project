@@ -34,7 +34,6 @@ public class CategoryControllerTest {
     public void testGetAll() {
         //then
         List<String> resultList = categoryController.getAll();
-
         //checking correct data
         assertEquals(3, resultList.size());
         assertEquals(categories, resultList);
