@@ -9,8 +9,6 @@ import store.model.Product;
 import store.dto.ProductDTO;
 import store.service.ProductService;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.stream.Collectors;
 
