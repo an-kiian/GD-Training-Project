@@ -6,8 +6,8 @@ import store.dto.ReviewDTO;
 import store.mapper.EntityMapper;
 import store.model.Product;
 import store.model.Review;
-import store.repository.ProductRepository;
 import store.repository.ReviewRepository;
+import store.service.ProductService;
 import store.service.ReviewService;
 
 import java.util.List;
@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 @Service
 public class ReviewServiceImpl implements ReviewService {
     private ReviewRepository reviewRepository;
-    private ProductRepository productRepository;
+    private ProductService productService;
     private EntityMapper<Review, ReviewDTO> mapper = (EntityMapper<Review, ReviewDTO>) EntityMapper.getInstance();
 
     @Autowired
-    ReviewServiceImpl(ReviewRepository reviewRepository, ProductRepository productRepository) {
+    ReviewServiceImpl(ReviewRepository reviewRepository, ProductService productService) {
         this.reviewRepository = reviewRepository;
-        this.productRepository = productRepository;
+        this.productService = productService;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public ReviewDTO addReview(ReviewDTO reviewDTO) {
-        Product product = productRepository.findById(reviewDTO.getProductId());
+        Product product = productService.checkProductAndUpdateRating(reviewDTO.getProductId(), reviewDTO.getRating());
         if (product == null)
             return null;
         Review review = mapper.toEntity(reviewDTO, Review.class);

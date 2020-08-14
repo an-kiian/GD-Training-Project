@@ -11,11 +11,11 @@ import store.dto.ReviewDTO;
 import store.mapper.EntityMapper;
 import store.model.Product;
 import store.model.Review;
-import store.repository.ProductRepository;
 import store.repository.ReviewRepository;
 import store.service.impl.ReviewServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +29,7 @@ public class ReviewServiceTest {
     @Mock
     private ReviewRepository reviewRepository;
     @Mock
-    private ProductRepository productRepository;
+    private ProductService productService;
     private EntityMapper<Review, ReviewDTO> mapper = (EntityMapper<Review, ReviewDTO>) EntityMapper.getInstance();
     private static final double RATING = 5;
     private static final Long ID = 1L;
@@ -51,8 +51,7 @@ public class ReviewServiceTest {
     @Test
     public void testGetReviews() {
         //given
-        List<Review> reviews = new ArrayList<>();
-        reviews.add(review);
+        List<Review> reviews = Collections.singletonList(review);
         //when
         Mockito.when(reviewRepository.findByProductId(Mockito.anyLong())).thenReturn(reviews);
         //then
@@ -64,7 +63,7 @@ public class ReviewServiceTest {
     @Test
     public void testAdd() {
         //when
-        Mockito.when(productRepository.findById(Mockito.anyLong())).thenReturn(new Product());
+        Mockito.when(productService.checkProductAndUpdateRating(Mockito.anyLong(), Mockito.anyDouble())).thenReturn(new Product());
         Mockito.when(reviewRepository.save(Mockito.any(Review.class))).thenReturn(review);
         //then
         ReviewDTO resultReviewDTO = service.addReview(reviewDto);
@@ -74,7 +73,7 @@ public class ReviewServiceTest {
     @Test
     public void testAddForIncorrectId() {
         //when
-        Mockito.when(productRepository.findById(Mockito.anyLong())).thenReturn(new Product());
+        Mockito.when(productService.checkProductAndUpdateRating(Mockito.anyLong(), Mockito.anyDouble())).thenReturn(null);
         Mockito.when(reviewRepository.save(Mockito.any(Review.class))).thenReturn(null);
         //then
         ReviewDTO resultReviewDTO = service.addReview(reviewDto);

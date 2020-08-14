@@ -2,14 +2,17 @@ package store.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Data
+@EqualsAndHashCode()
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,24 +22,11 @@ public class Review {
     private String text;
     @Column(name = "rating")
     private double rating;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "productId", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private Product product;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        Review that = (Review) o;
-        return (Objects.equals(text, that.text) || Objects.equals(rating, that.rating) || Objects.equals(id, that.id));
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(text) + Objects.hash(rating) + Objects.hash(id);
-        return result;
-    }
 }

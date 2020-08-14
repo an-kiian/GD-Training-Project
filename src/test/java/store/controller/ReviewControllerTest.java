@@ -9,7 +9,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import store.dto.ReviewDTO;
 import store.service.ReviewService;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -25,8 +25,7 @@ public class ReviewControllerTest {
     @Test
     public void testGetProducts() {
         //given
-        List<ReviewDTO> reviews = new ArrayList<>();
-        reviews.add(review);
+        List<ReviewDTO> reviews = Collections.singletonList(review);
         //when
         Mockito.when(reviewService.getReviews(Mockito.anyLong())).thenReturn(reviews);
         //then

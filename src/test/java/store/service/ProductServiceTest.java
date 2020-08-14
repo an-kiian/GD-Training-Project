@@ -9,18 +9,16 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import store.dto.ProductDTO;
+import store.exception.ProductNotFoundException;
 import store.mapper.EntityMapper;
 import store.model.Product;
-import store.model.Review;
 import store.repository.ProductRepository;
 import store.service.impl.ProductServiceImpl;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,40 +38,33 @@ public class ProductServiceTest {
 
     @Before
     public void setUp() {
-        //given
         product = new Product();
         product.setId(ID);
         product.setName("Product name");
         product.setPrice(10);
         product.setDescription("Product description");
-        productList = Arrays.asList(product);
+        productList = Collections.singletonList(product);
         mapper = (EntityMapper<Product, ProductDTO>) EntityMapper.getInstance();
     }
 
     @Test
-    public void testGetProductsWithoutReviews() {
-
+    public void testGetProducts() {
         //when
-        Mockito.when(repository.findByCategory(Mockito.any(), Mockito.anyInt())).thenReturn(productList);
+        Mockito.when(repository.findByCategory(Mockito.anyList(), Mockito.anyBoolean())).thenReturn(productList);
         //then
-        List<ProductDTO> resultList = service.getProducts(new String[]{}, false);
+        List<ProductDTO> resultList = service.getProducts(new ArrayList<>(), false);
         List<Product> resultProductList = resultList.stream().map(prodDTO -> mapper.toEntity(prodDTO, Product.class)).collect(Collectors.toList());
         assertEquals(productList, resultProductList);
-        assertNull(resultList.get(0).getReviews());
     }
 
     @Test
     public void testGetProductsWithReviews() {
-        //given
-
-        productList.get(0).setReviews(new HashSet<Review>());
         //when
-        Mockito.when(repository.findByCategory(Mockito.any(), Mockito.anyInt())).thenReturn(productList);
+        Mockito.when(repository.findByCategoryWithReviews(Mockito.anyList(), Mockito.anyBoolean())).thenReturn(productList);
         //then
-        List<ProductDTO> resultList = service.getProducts(new String[]{"Category 1"}, true);
+        List<ProductDTO> resultList = service.getProducts(new ArrayList<>(), true);
         List<Product> resultProductList = resultList.stream().map(prodDTO -> mapper.toEntity(prodDTO, Product.class)).collect(Collectors.toList());
         assertEquals(productList, resultProductList);
-        assertNotNull(resultList.get(0).getReviews());
     }
 
     @Test
@@ -97,12 +88,31 @@ public class ProductServiceTest {
         assertEquals(product, mapper.toEntity(resultUpdateProduct, Product.class));
     }
 
-    @Test
+    @Test(expected = ProductNotFoundException.class)
     public void testUpdatePriceForIncorrectId() {
         //when
-        when(repository.save(Mockito.any(Product.class))).thenReturn(product);
+        when(repository.findById(ID)).thenReturn(null);
         // then
         ProductDTO nullProduct = service.updatePrice(mapper.toDTO(product, ProductDTO.class));
-        assertNull(nullProduct);
+    }
+
+    public void testCheckProductAndUpdateRatingForCorrectId() {
+        //given
+        product.setRating(2.0);
+        //when
+        when(repository.findById(ID)).thenReturn(product);
+        when(repository.save(Mockito.any(Product.class))).thenReturn(product);
+        // then
+        Product resultProduct = service.checkProductAndUpdateRating(ID, 1.0);
+        assertEquals(resultProduct.getRating(), 1.5);
+
+    }
+
+    @Test(expected = ProductNotFoundException.class)
+    public void testCheckProductAndUpdateRatingForIncorrectId() {
+        //when
+        when(repository.findById(ID)).thenReturn(null);
+        // then
+        Product resultProduct = service.checkProductAndUpdateRating(ID, 1.0);
     }
 }

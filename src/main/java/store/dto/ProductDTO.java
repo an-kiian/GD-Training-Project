@@ -1,6 +1,8 @@
 package store.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import store.model.Review;
@@ -21,9 +23,11 @@ public class ProductDTO {
     private double price;
     private String description;
     @CategoriesConstraint
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<String> categories;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Set<Review> reviews;
+    private double rating;
 
     public ProductDTO(String name, double price, String description) {
         this.name = name;

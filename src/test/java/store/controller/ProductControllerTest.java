@@ -31,7 +31,7 @@ public class ProductControllerTest {
         //when
         Mockito.when(productService.getProducts(Mockito.any(), Mockito.anyBoolean())).thenReturn(products);
         //then
-        List<ProductDTO> resultList = productController.getProducts(new String[]{"Category 1"}, true);
+        List<ProductDTO> resultList = productController.getProducts(new ArrayList<>(), true);
         assertEquals(resultList, products);
     }
 
