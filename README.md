@@ -10,9 +10,7 @@ Product management:
 
 - product price update
 
-- receiving all products stored in the database
-
-- receiving products by their name or unique id.
+- receiving products by categories from the database.
 
 ## Summary
 
@@ -97,22 +95,21 @@ run class
 ### Check service functionality
 **Using Postman**
 
-It is possible to use postman [collection](https://www.getpostman.com/collections/6e08a7f7503e5e63101c) for check service or make own requests.
+It is possible to use postman [collection](https://www.getpostman.com/collections/6820f2ae280f0001da40) for check service or make own requests.
 
 There are 3 requests types: *GET*, *POST* and *PUT* in the system.
 
 1.GET:
-- get product by id: http://localhost:8080/store/product/{id}, where {id} is a needed product id.
-- get product by name: http://localhost:8080/store/product/{name}, where {name} is a needed product name.
+- get product by categories: http://localhost:8080/store/product?categories={Category 1},{Category 2}, where {Category 1} and {Category 2} are categories according to which you want to get products.
 
-If GET request is success, you will receive product in json format.
+If GET request is success, you will receive products in json format.
 
 2.POST:
 add new product: http://localhost:8080/store/product/) with body in json format as:
     
     
-    {"name":"Product name", "price":100, "description":"Product description}
-   If POST request is success, you will receive added product in json format.
+    {"name":"Product name", "price":100, "description":"Product description, "categories":["First","Second"]}
+   In case if you set category which doesn't exist in the system, you'll receive null-object and product won't be added to the database. If POST request is success, you will receive added product in json format.
     
 3.PUT:
 update product price: http://localhost:8080/store/product/price with body in json format as:
