@@ -3,6 +3,7 @@ package store.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import store.dto.SaleDTO;
+import store.exception.SaleNotFoundException;
 import store.mapper.EntityMapper;
 import store.model.Sale;
 import store.model.Sale_;
@@ -79,7 +80,7 @@ public class SaleServiceImpl implements SaleService {
     public SaleDTO update(SaleDTO saleDTO) {
         Sale saleFromDB = saleRepository.findById(saleDTO.getId());
         if (saleFromDB == null) {
-            return null;
+            throw new SaleNotFoundException(saleDTO.getId());
         }
         saleFromDB.setDateOn(saleDTO.getDateOn());
         saleFromDB.setDateOff(saleDTO.getDateOff());
