@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import store.dto.SaleDTO;
 import store.service.SaleService;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -26,8 +25,8 @@ public class SaleController {
             @RequestParam(value = "id", required = false)
                     Long id,
             @RequestParam(value = "saleDate",required = false)
-            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm", iso = DateTimeFormat.ISO.DATE_TIME)
-                    LocalDateTime saleDate,
+            @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE)
+                    LocalDate saleDate,
             @RequestParam(value = "categories", required = false)
                     List<String> categories){
         return saleService.get(id, saleDate, categories);

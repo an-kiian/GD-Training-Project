@@ -1,33 +1,33 @@
 package store.service.impl;
 
-import com.google.common.collect.Lists;
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.support.QueryBase;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.h2.command.dml.Query;
-import org.hibernate.jpa.internal.EntityManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import store.dto.SaleDTO;
 import store.mapper.EntityMapper;
-import store.model.QSale;
 import store.model.Sale;
+import store.model.Sale_;
 import store.repository.SaleRepository;
 import store.service.SaleService;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import java.time.LocalDateTime;
-import java.util.*;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class SaleServiceImpl implements SaleService {
 
     private SaleRepository saleRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
 
     private EntityMapper<Sale, SaleDTO>  entityMapper = (EntityMapper<Sale, SaleDTO>) EntityMapper.getInstance();
 
@@ -37,41 +37,36 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public List<SaleDTO> get(Long id, LocalDateTime saleDate, List<String> categories) {
+    public List<SaleDTO> get(Long id, LocalDate saleDate, List<String> categories) {
 
-        QSale qSale = QSale.sale;
-        if(id == null & saleDate == null & categories == null){
-            List<SaleDTO> saleDTOList = new ArrayList<>();
-            saleRepository.findAll().forEach(sale -> saleDTOList.add(entityMapper.toDTO(sale, SaleDTO.class)));
-            return saleDTOList;
-        }
-//        if (categories == null) {
-//            return saleRepository.findByIdOrDateOnAfterOrDateOffBefore(id, saleDate).stream().map(sale -> entityMapper.toDTO(sale, SaleDTO.class)).collect(Collectors.toList());
-//        } else {
-//            return saleRepository.findByIdOrDateOnAfterOrDateOffBeforeByCategories(id, saleDate, categories, categories.size()).stream().map(sale -> entityMapper.toDTO(sale, SaleDTO.class)).collect(Collectors.toList());
-//        }
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
-        BooleanBuilder where = new BooleanBuilder();
+        CriteriaQuery<Sale> saleCriteriaQuery = criteriaBuilder.createQuery(Sale.class);
+        Root<Sale> saleRoot = saleCriteriaQuery.from(Sale.class);
+
+        saleCriteriaQuery.select(saleRoot);
+
+        List<Predicate> predicates = new ArrayList<>();
+
         if (id != null){
-            where.and(qSale.id.eq(id));
+            predicates.add(criteriaBuilder.equal(saleRoot.get(Sale_.id), id));
         }
         if (saleDate != null) {
-            where.and(qSale.dateOn.loe(saleDate).and(qSale.dateOff.goe(saleDate)));
+            predicates.add(criteriaBuilder.lessThanOrEqualTo(saleRoot.get(Sale_.dateOn), saleDate));
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(saleRoot.get(Sale_.dateOff), saleDate));
         }
-        if(categories != null){
-            for (String category : categories) {
-                where.and(qSale.categories.contains(category));
-            }
+        if (categories != null) {
+            predicates.add(criteriaBuilder.and(saleRoot.join("categories").in(categories)));
         }
-        List<SaleDTO> saleDTOList = Lists.newArrayList(saleRepository.findAll(where)).stream().map(sale -> entityMapper.toDTO(sale, SaleDTO.class)).collect(Collectors.toList());
-        return saleDTOList;
-//        List<SaleDTO> saleDTOList = new ArrayList<>();
-//        saleRepository.findAll(
-//                qSale.id.eq(id).
-//                        and(qSale.dateOn.before(saleDate).or(qSale.sale.dateOn.eq(saleDate))).
-//                        and(qSale.dateOff.after(saleDate).or(qSale.sale.dateOff.eq(saleDate)))).
-//                forEach(sale1 -> saleDTOList.add(entityMapper.toDTO(sale1, SaleDTO.class)));
-//        return saleDTOList;
+
+        if (!predicates.isEmpty()){
+            saleCriteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
+        }
+
+        saleCriteriaQuery.groupBy(saleRoot.get(Sale_.id));
+
+        List<Sale> list = entityManager.createQuery(saleCriteriaQuery).getResultList();
+        return list.stream().map(sale -> entityMapper.toDTO(sale, SaleDTO.class)).collect(Collectors.toList());
     }
 
     @Override
