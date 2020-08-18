@@ -30,9 +30,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO updatePrice(ProductDTO productDTO) {
-        Product productFromDB = productRepository.findById(productDTO.getId());
-        if (productFromDB == null)
-            throw new ProductNotFoundException(productDTO.getId());
+        Product productFromDB = productRepository.findById(productDTO.getId()).orElseThrow(() -> new ProductNotFoundException(productDTO.getId()));
         productFromDB.setPrice(productDTO.getPrice());
         return mapper.toDTO(productRepository.save(productFromDB), ProductDTO.class);
     }
@@ -45,9 +43,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product checkProductAndUpdateRating(Long idProduct, double rating) {
-        Product product = productRepository.findById(idProduct);
-        if (product == null)
-            throw new ProductNotFoundException(idProduct);
+        Product product = productRepository.findById(idProduct).orElseThrow(() -> new ProductNotFoundException(idProduct));
         double oldRating = product.getRating();
         rating = oldRating == 0 ? rating : ((oldRating + rating) / 2);
         product.setRating(rating);

@@ -1,8 +1,10 @@
 package store.service;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -30,8 +32,11 @@ public class ProductServiceTest {
     private ProductServiceImpl service;
     @Mock
     private ProductRepository repository;
+    @Rule
+    private final ExpectedException EXCEPTION = ExpectedException.none();
     private Product product;
     private List<Product> productList;
+    private List<String> categories;
     private EntityMapper<Product, ProductDTO> mapper;
     private static final Long ID = 1L;
 
@@ -44,14 +49,15 @@ public class ProductServiceTest {
         product.setDescription("Product description");
         productList = Collections.singletonList(product);
         mapper = (EntityMapper<Product, ProductDTO>) EntityMapper.getInstance();
+        categories = Collections.singletonList("First Category");
     }
 
     @Test
     public void testGetProducts() {
         //when
-        Mockito.when(repository.findByCategory(Mockito.anyList(), Mockito.anyBoolean())).thenReturn(productList);
+        Mockito.when(repository.findByCategory(categories, categories == null)).thenReturn(productList);
         //then
-        List<ProductDTO> resultList = service.getProducts(new ArrayList<>(), false);
+        List<ProductDTO> resultList = service.getProducts(categories, false);
         List<Product> resultProductList = resultList.stream().map(prodDTO -> mapper.toEntity(prodDTO, Product.class)).collect(Collectors.toList());
         assertEquals(productList, resultProductList);
     }
@@ -59,9 +65,9 @@ public class ProductServiceTest {
     @Test
     public void testGetProductsWithReviews() {
         //when
-        Mockito.when(repository.findByCategoryWithReviews(Mockito.anyList(), Mockito.anyBoolean())).thenReturn(productList);
+        Mockito.when(repository.findByCategoryWithReviews(categories, false)).thenReturn(productList);
         //then
-        List<ProductDTO> resultList = service.getProducts(new ArrayList<>(), true);
+        List<ProductDTO> resultList = service.getProducts(categories, true);
         List<Product> resultProductList = resultList.stream().map(prodDTO -> mapper.toEntity(prodDTO, Product.class)).collect(Collectors.toList());
         assertEquals(productList, resultProductList);
     }
@@ -69,7 +75,7 @@ public class ProductServiceTest {
     @Test
     public void testAdd() {
         //when
-        when(repository.save(Mockito.any(Product.class))).thenReturn(product);
+        when(repository.save(product)).thenReturn(product);
         //then
         ProductDTO resultProductDto = service.addProduct(mapper.toDTO(product, ProductDTO.class));
         verify(repository).save(product);
@@ -79,40 +85,43 @@ public class ProductServiceTest {
     @Test
     public void testUpdatePrice() {
         //when
-        when(repository.save(Mockito.any(Product.class))).thenReturn(product);
-        when(repository.findById(ID)).thenReturn(product);
+        when(repository.save(product)).thenReturn(product);
+        when(repository.findById(ID)).thenReturn(Optional.of(product));
         //then
         ProductDTO resultUpdateProduct = service.updatePrice(mapper.toDTO(product, ProductDTO.class));
         verify(repository).save(product);
         assertEquals(product, mapper.toEntity(resultUpdateProduct, Product.class));
     }
 
-    @Test(expected = ProductNotFoundException.class)
+    @Test
     public void testUpdatePriceForIncorrectId() {
         //when
-        when(repository.findById(ID)).thenReturn(null);
+        when(repository.findById(ID)).thenThrow(new ProductNotFoundException(ID));
         // then
+        EXCEPTION.expect(ProductNotFoundException.class);
         ProductDTO nullProduct = service.updatePrice(mapper.toDTO(product, ProductDTO.class));
         assertNull(nullProduct);
     }
 
+    @Test
     public void testCheckProductAndUpdateRatingForCorrectId() {
         //given
         product.setRating(2.0);
         //when
-        when(repository.findById(ID)).thenReturn(product);
-        when(repository.save(Mockito.any(Product.class))).thenReturn(product);
+        when(repository.findById(ID)).thenReturn(Optional.of(product));
+        when(repository.save(product)).thenReturn(product);
         // then
         Product resultProduct = service.checkProductAndUpdateRating(ID, 1.0);
         assertEquals(resultProduct.getRating(), 1.5);
 
     }
 
-    @Test(expected = ProductNotFoundException.class)
+    @Test
     public void testCheckProductAndUpdateRatingForIncorrectId() {
         //when
-        when(repository.findById(ID)).thenReturn(null);
+        when(repository.findById(ID)).thenThrow(new ProductNotFoundException(ID));
         // then
+        EXCEPTION.expect(ProductNotFoundException.class);
         Product resultProduct = service.checkProductAndUpdateRating(ID, 1.0);
         assertNull(resultProduct);
     }
