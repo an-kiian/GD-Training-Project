@@ -1,13 +1,16 @@
 package store.service;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import store.dto.SaleDTO;
+import store.exception.SaleNotFoundException;
 import store.mapper.EntityMapper;
 import store.model.Sale;
 import store.model.Sale_;
@@ -57,6 +60,9 @@ public class SaleServiceTest {
 
     @Mock
     private Join<Object, Object> joinCat;
+
+    @Rule
+    public final ExpectedException EXCEPTION = ExpectedException.none();
 
     private Sale sale;
 
@@ -248,7 +254,7 @@ public class SaleServiceTest {
 
         //when
         when(saleRepository.save(updateSale)).thenReturn(updateSale);
-        when(saleRepository.findById(ID)).thenReturn(updateSale);
+        when(saleRepository.findById(ID)).thenReturn(java.util.Optional.of(updateSale));
 
         //then
         SaleDTO resultSaleDTO = saleService.update(mapper.toDTO(updateSale, SaleDTO.class));
@@ -263,13 +269,15 @@ public class SaleServiceTest {
     @Test
     public void testUpdateForIncorrectId(){
         //given
+        Long testID = 5L;
         Sale updateSale = sale;
-        updateSale.setId(5L);
+        updateSale.setId(testID);
 
         //when
-        when(saleRepository.findById(5L)).thenReturn(null);
+        when(saleRepository.findById(testID)).thenThrow(new SaleNotFoundException(testID));
         when(saleRepository.save(updateSale)).thenReturn(updateSale);
 
+        EXCEPTION.expect(SaleNotFoundException.class);
         //then
         SaleDTO nullSaleDTO = saleService.update(mapper.toDTO(updateSale, SaleDTO.class));
 
