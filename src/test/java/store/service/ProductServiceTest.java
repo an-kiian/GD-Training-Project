@@ -3,7 +3,6 @@ package store.service;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -33,7 +32,7 @@ public class ProductServiceTest {
     @Mock
     private ProductRepository repository;
     @Rule
-    private final ExpectedException EXCEPTION = ExpectedException.none();
+    public final ExpectedException EXCEPTION = ExpectedException.none();
     private Product product;
     private List<Product> productList;
     private List<String> categories;

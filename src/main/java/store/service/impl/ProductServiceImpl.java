@@ -31,6 +31,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO updatePrice(ProductDTO productDTO) {
         Product productFromDB = productRepository.findById(productDTO.getId()).orElseThrow(() -> new ProductNotFoundException(productDTO.getId()));
+
         productFromDB.setPrice(productDTO.getPrice());
         return mapper.toDTO(productRepository.save(productFromDB), ProductDTO.class);
     }
