@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import store.validator.CategoriesConstraint;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.util.List;
@@ -27,6 +28,7 @@ public class SaleDTO {
     private LocalDate dateOff;
 
     @Min(value = 0, message = "percent must not be negative")
+    @Max(value = 100, message = "percent must not be higher then 100")
     private double percent;
 
     @CategoriesConstraint

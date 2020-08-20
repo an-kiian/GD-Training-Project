@@ -79,7 +79,6 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public SaleDTO update(SaleDTO saleDTO) {
         Sale saleFromDB = saleRepository.findById(saleDTO.getId()).orElseThrow(() -> new SaleNotFoundException(saleDTO.getId()));
-        Sale sale = saleRepository.findById(saleDTO.getId()).orElseThrow(() -> new SaleNotFoundException(saleDTO.getId()));
         saleFromDB.setDateOn(saleDTO.getDateOn());
         saleFromDB.setDateOff(saleDTO.getDateOff());
         saleFromDB.setPercent(saleDTO.getPercent());
