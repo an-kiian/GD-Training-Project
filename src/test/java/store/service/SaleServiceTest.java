@@ -205,28 +205,20 @@ public class SaleServiceTest {
 
     @Test
     public void testAdd(){
-        //given
-        Sale newSale = new Sale();
-        newSale.setId(3L);
-        newSale.setDateOn(dateOn);
-        newSale.setDateOff(dateOff);
-        newSale.setPercent(50);
-        newSale.setCategories(categories);
-
         //when
-        when(saleRepository.save(newSale)).thenReturn(newSale);
+        when(saleRepository.save(sale)).thenReturn(sale);
 
         //then
-        SaleDTO resultSaleDTO = saleService.add(mapper.toDTO(newSale, SaleDTO.class));
+        SaleDTO resultSaleDTO = saleService.add(mapper.toDTO(sale, SaleDTO.class));
 
         //testing the method is calling
-        verify(saleRepository).save(newSale);
+        verify(saleRepository).save(sale);
 
         //convert saleDTO into sale
         Sale resultSale = mapper.toEntity(resultSaleDTO, Sale.class);
 
         //checking correct data
-        assertEquals(newSale, resultSale);
+        assertEquals(sale, resultSale);
     }
 
     @Test
