@@ -101,22 +101,33 @@ There are 3 requests types: *GET*, *POST* and *PUT* in the system.
 
 1.GET:
 - get product by categories: http://localhost:8080/store/product?categories={Category 1},{Category 2}, where {Category 1} and {Category 2} are categories according to which you want to get products.
-
-If GET request is success, you will receive products in json format.
+- get sale: http://localhost:8080/store/sales?categories={Category 1},{Category 2}&id={id}&saleDate={sale_data}, where {Category 1}, {Category 2}, {id}, {sale_data} is optional parameters. If all parameters is missing you get all sales.
+ 
+If GET request is success, you will receive products or sales in json format.
 
 2.POST:
-add new product: http://localhost:8080/store/product/) with body in json format as:
+- add new product: http://localhost:8080/store/product/) with body in json format as:
     
     
     {"name":"Product name", "price":100, "description":"Product description, "categories":["First","Second"]}
    In case if you set category which doesn't exist in the system, you'll receive null-object and product won't be added to the database. If POST request is success, you will receive added product in json format.
-    
+
+- add new sale: http://localhost:8080/store/sales/) with body in json format as:
+
+
+    {"dateOn":"2020-08-20", "dateOff":"2020-10-20", "percent":10.0, "categories":["First","Second"]}
+   In case if you set category which doesn't exist in the system, you'll receive null-object and sale won't be added to the database. If POST request is success, you will receive added sale in json format.
+
 3.PUT:
-update product price: http://localhost:8080/store/product/price with body in json format as:
+- update product price: http://localhost:8080/store/product/price with body in json format as:
 
     {"id":1, "price":200}
 If PUT request is success and there is a product with specified id in the database, you will receive updated product in json format.
 
+- update sale: http://localhost:8080/store/sale/ with body in json format as:
+
+    {"id":1, "dateOn":"2020-08-20", "dateOff":"2020-10-20", "percent":35.0, "categories":["First","Second"]}
+If PUT request is success and there is a sale with specified id in the database, you will receive updated sale in json format.
 **Using Swagger**
 
 For build interactive API documentation and testing application you can use Swagger framework
