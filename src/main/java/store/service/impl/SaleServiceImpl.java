@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 public class SaleServiceImpl implements SaleService {
 
-    private SaleRepository saleRepository;
+    private final SaleRepository saleRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -79,6 +79,7 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public SaleDTO update(SaleDTO saleDTO) {
         Sale saleFromDB = saleRepository.findById(saleDTO.getId()).orElseThrow(() -> new SaleNotFoundException(saleDTO.getId()));
+        Sale sale = saleRepository.findById(saleDTO.getId()).orElseThrow(() -> new SaleNotFoundException(saleDTO.getId()));
         saleFromDB.setDateOn(saleDTO.getDateOn());
         saleFromDB.setDateOff(saleDTO.getDateOff());
         saleFromDB.setPercent(saleDTO.getPercent());

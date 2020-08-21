@@ -14,6 +14,7 @@ public class ProductDTO {
     private String name;
     @Range(min = 0)
     private double price;
+    private Double salePrice;
     private String description;
     @CategoriesConstraint
     private List<String> categories;
