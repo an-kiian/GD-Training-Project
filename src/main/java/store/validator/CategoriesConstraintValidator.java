@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CategoriesConstraintValidator implements ConstraintValidator<CategoriesConstraint, List<String>> {
+
     @Value("${categories.list}")
     private String[] allCategories;
 
