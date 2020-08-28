@@ -7,12 +7,20 @@ import org.springframework.stereotype.Repository;
 import store.model.Product;
 
 import java.util.List;
+import java.util.Optional;
+
 
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Long> {
 
-    @Query(value = "select p from Product p join p.categories cat where cat in :categories group by p.id having count(p.id) = :categoryCount")
-    List<Product> findByCategory(@Param("categories") List<String> categories, @Param("categoryCount") long catCount);
 
-    Product findById(Long id);
+    @Query(value = "SELECT DISTINCT new Product(p.id,p.name,p.price,p.description,p.rating,p.reviewNumber) FROM Product p JOIN p.categories cat WHERE (:ignoreCategories=true OR cat in :categories) ORDER BY p.rating DESC")
+    List<Product> findByCategory(@Param("categories") List<String> categories, @Param("ignoreCategories") boolean ignoreCategories);
+
+    @Query(value = "SELECT DISTINCT p FROM Product p JOIN p.categories cat WHERE (:ignoreCategories=true OR cat in :categories) ORDER BY p.rating DESC")
+    List<Product> findByCategoryWithReviews(@Param("categories") List<String> categories, @Param("ignoreCategories") boolean ignoreCategories);
+
+    Optional<Product> findById(Long id);
+
+
 }

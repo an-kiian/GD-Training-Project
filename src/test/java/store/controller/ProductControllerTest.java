@@ -1,6 +1,5 @@
 package store.controller;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -11,7 +10,7 @@ import store.dto.ProductDTO;
 import store.service.ProductService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -28,12 +27,11 @@ public class ProductControllerTest {
     @Test
     public void testGetProducts() {
         //given
-        List<ProductDTO> products = new ArrayList<>();
-        products.add(PRODUCT);
+        List<ProductDTO> products = Collections.singletonList(PRODUCT);
         //when
-        Mockito.when(productService.getProducts(Mockito.anyList())).thenReturn(products);
+        Mockito.when(productService.getProducts(Mockito.any(), Mockito.anyBoolean())).thenReturn(products);
         //then
-        List<ProductDTO> resultList = productController.getProducts(Arrays.asList(new String[]{"Category 1"}));
+        List<ProductDTO> resultList = productController.getProducts(new ArrayList<>(), true);
         assertEquals(resultList, products);
     }
 

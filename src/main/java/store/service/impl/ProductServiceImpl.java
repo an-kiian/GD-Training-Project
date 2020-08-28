@@ -1,7 +1,9 @@
 package store.service.impl;
 
+import org.decimal4j.util.DoubleRounder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import store.exception.ProductNotFoundException;
 import store.mapper.EntityMapper;
 import store.repository.ProductRepository;
 import store.model.Product;
@@ -22,18 +24,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> getProducts(List<String> category) {
-
-        List<Product> products = productRepository.findByCategory(category, category.size());
-        List<ProductDTO> productsDTO = products.stream().map(product -> mapper.toDTO(product, ProductDTO.class)).collect(Collectors.toList());
-        return productsDTO;
+    public List<ProductDTO> getProducts(List<String> categories, boolean showReview) {
+        List<Product> products = showReview ? productRepository.findByCategoryWithReviews(categories, categories == null) : productRepository.findByCategory(categories, categories == null);
+        return products.stream().map(product -> mapper.toDTO(product, ProductDTO.class)).collect(Collectors.toList());
     }
 
     @Override
     public ProductDTO updatePrice(ProductDTO productDTO) {
-        Product productFromDB = productRepository.findById(productDTO.getId());
-        if (productFromDB == null)
-            return null;
+        Product productFromDB = productRepository.findById(productDTO.getId()).orElseThrow(() -> new ProductNotFoundException(productDTO.getId()));
         productFromDB.setPrice(productDTO.getPrice());
         return mapper.toDTO(productRepository.save(productFromDB), ProductDTO.class);
     }
@@ -42,5 +40,15 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO addProduct(ProductDTO productDTO) {
         Product product = mapper.toEntity(productDTO, Product.class);
         return mapper.toDTO(productRepository.save(product), ProductDTO.class);
+    }
+
+    @Override
+    public Product checkProductAndUpdateRating(Long idProduct, double rating) {
+        Product product = productRepository.findById(idProduct).orElseThrow(() -> new ProductNotFoundException(idProduct));
+        double oldRating = product.getRating();
+        rating = oldRating == 0 ? rating : DoubleRounder.round(((oldRating * product.getReviewNumber() + rating) / (product.getReviewNumber() + 1)), 2);
+        product.setReviewNumber(product.getReviewNumber() + 1);
+        product.setRating(rating);
+        return productRepository.save(product);
     }
 }

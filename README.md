@@ -6,11 +6,17 @@ The main functionality that is implemented in the project is working with a data
 
 Product management:
 
-- adding a product
+- adding a product;
 
-- product price update
+- product price update;
 
 - receiving products by categories from the database.
+
+Review management:
+
+- adding a new review;
+
+- receiving reviews by product id.
 
 ## Summary
 
@@ -97,26 +103,47 @@ run class
 
 It is possible to use postman [collection](https://www.getpostman.com/collections/6820f2ae280f0001da40) for check service or make own requests.
 
+*Product*
+
 There are 3 requests types: *GET*, *POST* and *PUT* in the system.
 
 1.GET:
 - get product by categories: http://localhost:8080/store/product?categories={Category 1},{Category 2}, where {Category 1} and {Category 2} are categories according to which you want to get products.
 
+- get product by categories with reviews: http://localhost:8080/store/product?categories={Category 1},{Category 2}&showReview=true, where {Category 1} and {Category 2} are categories according to which you want to get products.
+
 If GET request is success, you will receive products in json format.
 
 2.POST:
-add new product: http://localhost:8080/store/product/) with body in json format as:
+- add a new product: http://localhost:8080/store/product) with body in json format as:
     
     
-    {"name":"Product name", "price":100, "description":"Product description, "categories":["First","Second"]}
-   In case if you set category which doesn't exist in the system, you'll receive null-object and product won't be added to the database. If POST request is success, you will receive added product in json format.
+    {"name":"Product name", "price":100, "description":"Product description, "categories":["First Category","Second Category"]}
+   In case you set category which doesn't exist in the system or price lower than 0, you'll receive error and product won't be added to the database. If POST request is success, you will receive added product in json format.
     
 3.PUT:
-update product price: http://localhost:8080/store/product/price with body in json format as:
+-update product price: http://localhost:8080/store/product/price with body in json format as:
 
     {"id":1, "price":200}
 If PUT request is success and there is a product with specified id in the database, you will receive updated product in json format.
+In case you set wrong product id or price lower than 0, you'll receive error and product won't be updated.
 
+*Review*
+
+There are 2 requests types: *GET* and *POST* in the system.
+
+1.GET:
+- get product by product id: http://localhost:8080/store/review/{idProduct}, where {idProduct} is a product id which reviews you want to receive. 
+
+If GET request is success, you will receive products in json format.
+
+2.POST:
+- add a new review: http://localhost:8080/store/review) with body in json format as:
+    
+    
+    {"productId":1, "text":"Product review", "rating":2}
+   In case if you set product id which doesn't exist in the system or set rating not between 0 and 10, you'll receive error and review won't be added to the database. If POST request is success, you will receive added review in json format.
+    
 **Using Swagger**
 
 For build interactive API documentation and testing application you can use Swagger framework
