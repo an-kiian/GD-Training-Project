@@ -106,6 +106,7 @@ public class ProductServiceTest {
     public void testCheckProductAndUpdateRatingForCorrectId() {
         //given
         product.setRating(2.0);
+        product.setReviewNumber(1);
         //when
         when(repository.findById(ID)).thenReturn(Optional.of(product));
         when(repository.save(product)).thenReturn(product);

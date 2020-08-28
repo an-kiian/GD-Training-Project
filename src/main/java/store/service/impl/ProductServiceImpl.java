@@ -1,5 +1,6 @@
 package store.service.impl;
 
+import org.decimal4j.util.DoubleRounder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import store.exception.ProductNotFoundException;
@@ -31,7 +32,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO updatePrice(ProductDTO productDTO) {
         Product productFromDB = productRepository.findById(productDTO.getId()).orElseThrow(() -> new ProductNotFoundException(productDTO.getId()));
-
         productFromDB.setPrice(productDTO.getPrice());
         return mapper.toDTO(productRepository.save(productFromDB), ProductDTO.class);
     }
@@ -46,7 +46,8 @@ public class ProductServiceImpl implements ProductService {
     public Product checkProductAndUpdateRating(Long idProduct, double rating) {
         Product product = productRepository.findById(idProduct).orElseThrow(() -> new ProductNotFoundException(idProduct));
         double oldRating = product.getRating();
-        rating = oldRating == 0 ? rating : ((oldRating + rating) / 2);
+        rating = oldRating == 0 ? rating : DoubleRounder.round(((oldRating * product.getReviewNumber() + rating) / (product.getReviewNumber() + 1)), 2);
+        product.setReviewNumber(product.getReviewNumber() + 1);
         product.setRating(rating);
         return productRepository.save(product);
     }

@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Product {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "productId", nullable = false)
     private Long id;
     @Column(name = "name")
@@ -29,13 +29,15 @@ public class Product {
             mappedBy = "product")
     private Set<Review> reviews;
     private double rating;
+    private int reviewNumber;
 
-    public Product(Long id, String name, double price, String description, double rating) {
+    public Product(Long id, String name, double price, String description, double rating, int reviewNumber) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
         this.rating = rating;
+        this.reviewNumber = reviewNumber;
     }
 
 }

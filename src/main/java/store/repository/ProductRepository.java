@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface ProductRepository extends CrudRepository<Product, Long> {
 
 
-    @Query(value = "SELECT DISTINCT new Product(p.id,p.name,p.price,p.description,p.rating) FROM Product p JOIN p.categories cat WHERE (:ignoreCategories=true OR cat in :categories) ORDER BY p.rating DESC")
+    @Query(value = "SELECT DISTINCT new Product(p.id,p.name,p.price,p.description,p.rating,p.reviewNumber) FROM Product p JOIN p.categories cat WHERE (:ignoreCategories=true OR cat in :categories) ORDER BY p.rating DESC")
     List<Product> findByCategory(@Param("categories") List<String> categories, @Param("ignoreCategories") boolean ignoreCategories);
 
     @Query(value = "SELECT DISTINCT p FROM Product p JOIN p.categories cat WHERE (:ignoreCategories=true OR cat in :categories) ORDER BY p.rating DESC")

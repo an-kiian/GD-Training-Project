@@ -26,6 +26,7 @@ public class ProductDTO {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Set<Review> reviews;
     private double rating;
+    private int reviewNumber;
 
     public ProductDTO(String name, double price, String description) {
         this.name = name;
